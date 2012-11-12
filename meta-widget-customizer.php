@@ -5,7 +5,7 @@ Plugin Name: Meta Widget Customizer
 Plugin URI: http://benohead.com
 Description: Adds a customizable meta widget for the sidebar
 Author: Henri Benoit
-Version: 0.3
+Version: 0.4
 Author URI: http://benohead
 License: GPL2
 
@@ -77,6 +77,17 @@ class Meta_Widget_Customizer {
         if (! empty($data['wordpressorg'])) {
 	        ?><li><a href="http://wordpress.org/" title="<?php echo esc_attr(__('Powered by WordPress, state-of-the-art semantic personal publishing platform.')); ?>">WordPress.org</a></li><?php
 	    }
+        if (! empty($data['googlesearch'])) {
+	    ?>
+			<form method="get" id="googlesitesearch" action="https://www.google.com/search">
+				<fieldset>
+					<input type="text" name="q" class="searchquery" value="" />
+					<input type="hidden" name="as_sitesearch" class="searchsite" value="<?php echo site_url(); ?>" />
+					<input type="submit" name="btnG" value="<?php _e('Search'); ?>" />
+				</fieldset>
+			</form>
+		<?php
+		}
 	    if ((! empty($data['select_category'])) && ($data['select_category'] != -1)) {
 	    	wp_list_bookmarks(array('title_li' => '', 'categorize' =>'0', 'category' => $data['select_category'], 'category_before'  => '<li>', 'category_after' => '</li>' ));
 	    }
@@ -117,7 +128,8 @@ class Meta_Widget_Customizer {
                 <input id="meta_widget_customizer_xhtmlvalid" name="meta_widget_customizer_xhtmlvalid" type="checkbox" value="1" <?php checked('1', $data['xhtmlvalid']); ?> /><label for="meta_widget_customizer_xhtmlvalid"><?php echo __('XHTML validator link'); ?></label><br>				
                 <input id="meta_widget_customizer_entriesrss" name="meta_widget_customizer_entriesrss" type="checkbox" value="1" <?php checked('1', $data['entriesrss']); ?> /><label for="meta_widget_customizer_entriesrss"><?php echo __('Entries RSS'); ?></label><br>
                 <input id="meta_widget_customizer_commentsrss" name="meta_widget_customizer_commentsrss" type="checkbox" value="1" <?php checked('1', $data['commentsrss']); ?> /><label for="meta_widget_customizer_commentsrss"><?php echo __('Comments RSS'); ?></label><br>
-                <input id="meta_widget_customizer_wordpressorg" name="meta_widget_customizer_wordpressorg" type="checkbox" value="1" <?php checked('1', $data['wordpressorg']); ?> /><label for="meta_widget_customizer_wordpressorg"><?php echo __('WordPress.org'); ?></label>
+                <input id="meta_widget_customizer_wordpressorg" name="meta_widget_customizer_wordpressorg" type="checkbox" value="1" <?php checked('1', $data['wordpressorg']); ?> /><label for="meta_widget_customizer_wordpressorg"><?php echo __('WordPress.org'); ?></label><br>
+                <input id="meta_widget_customizer_googlesearch" name="meta_widget_customizer_googlesearch" type="checkbox" value="1" <?php checked('1', $data['googlesearch']); ?> /><label for="meta_widget_customizer_googlesearch"><?php echo __('Google search'); ?></label>
                 <p>Show also links from this category:</p>
 				<?php wp_dropdown_categories(array('hide_empty' => 0, 'id' => 'meta_widget_customizer_select_category', 'name' => 'meta_widget_customizer_select_category', 'selected' => $data['select_category'], 'show_count' => 1, 'show_option_none' => __('None'), 'taxonomy' => 'link_category')); ?>
                 <p>Show also items from this feed:</p>
@@ -137,6 +149,7 @@ class Meta_Widget_Customizer {
 			$data['entriesrss'] = attribute_escape($_POST['meta_widget_customizer_entriesrss']);
 			$data['commentsrss'] = attribute_escape($_POST['meta_widget_customizer_commentsrss']);
 			$data['wordpressorg'] = attribute_escape($_POST['meta_widget_customizer_wordpressorg']);
+			$data['googlesearch'] = attribute_escape($_POST['meta_widget_customizer_googlesearch']);
 			$data['select_category'] = attribute_escape($_POST['meta_widget_customizer_select_category']);
 			$data['feedurl'] = attribute_escape($_POST['meta_widget_customizer_feedurl']);
 			$data['feeditems'] = attribute_escape($_POST['meta_widget_customizer_feeditems']);
@@ -157,6 +170,7 @@ class Meta_Widget_Customizer {
 	                   'entriesrss' => 1,
 	                   'commentsrss' => 1,
 	                   'wordpressorg' => 1,
+	                   'googlesearch' => 0,
 					   'customlinks' => NULL,
 	                   'feedurl' => NULL,
 	                   'feeditems' => 0,
@@ -203,7 +217,8 @@ class Meta_Widget_Customizer {
                 <input id="meta_widget_customizer_xhtmlvalid" name="meta_widget_customizer[xhtmlvalid]" type="checkbox" value="1" <?php if (isset($data['xhtmlvalid'])) { checked('1', $data['xhtmlvalid']); } ?> /><label for="meta_widget_customizer_xhtmlvalid"><?php echo __('XHTML validator link'); ?></label><br>				
                 <input id="meta_widget_customizer_entriesrss" name="meta_widget_customizer[entriesrss]" type="checkbox" value="1" <?php if (isset($data['entriesrss'])) { checked('1', $data['entriesrss']); } ?> /><label for="meta_widget_customizer_entriesrss"><?php echo __('Entries RSS'); ?></label><br>
                 <input id="meta_widget_customizer_commentsrss" name="meta_widget_customizer[commentsrss]" type="checkbox" value="1" <?php if (isset($data['commentsrss'])) { checked('1', $data['commentsrss']); } ?> /><label for="meta_widget_customizer[commentsrss]"><?php echo __('Comments RSS'); ?></label><br>
-                <input id="meta_widget_customizer_wordpressorg" name="meta_widget_customizer[wordpressorg]" type="checkbox" value="1" <?php if (isset($data['wordpressorg'])) { checked('1', $data['wordpressorg']); } ?> /><label for="meta_widget_customizer_wordpressorg"><?php echo __('WordPress.org'); ?></label>
+                <input id="meta_widget_customizer_wordpressorg" name="meta_widget_customizer[wordpressorg]" type="checkbox" value="1" <?php if (isset($data['wordpressorg'])) { checked('1', $data['wordpressorg']); } ?> /><label for="meta_widget_customizer_wordpressorg"><?php echo __('WordPress.org'); ?></label><br>
+                <input id="meta_widget_customizer_googlesearch" name="meta_widget_customizer[googlesearch]" type="checkbox" value="1" <?php if (isset($data['googlesearch'])) { checked('1', $data['googlesearch']); } ?> /><label for="meta_widget_customizer_googlesearch"><?php echo __('Google search'); ?></label>
 
 				<p>Additionally you can define a link category which links will also be shown in the meta box.</p>
                 <p>Show also links from this category:</p>
