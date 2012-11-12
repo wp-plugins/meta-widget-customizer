@@ -4,7 +4,7 @@ Donate link: http://benohead.com/wordpress-meta-widget-customizer/
 Tags: meta,widget,customize,custom,links,hide,sidebar
 Requires at least: 2.8
 Tested up to: 3.4.2
-Stable tag: trunk
+Stable tag: 0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,10 +18,13 @@ Additionally it allows displaying a few other links:
 - A password lost link
 - Edit this page/post link
 - Dashboard (site admin) link
+- XHTML validator link
 
 These three links can also be hidden or shown. They will also only display if appropriate (depending on whether the user is logged in, which its rights, the type of page...).
 
 The third improvement is that you can add any number of additional links by selecting a links category to be displayed in the meta box.
+
+Starting with version 0.3, you can now also display entries from a cofigurable RSS feed.
 
 == Installation ==
 
@@ -40,6 +43,10 @@ Send an email to henri.benoit@gmail.com
 1. This screenshot shows how the widget looks like in the widget administration
 
 == Changelog ==
+
+= 0.3 =
+Added support for displaying entries from a configurable RSS feed as well as for:
+- XHTML validator link
 
 = 0.2 =
 Added support for displaying the links from a specified link category as well as for:
