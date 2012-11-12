@@ -5,7 +5,7 @@ Plugin Name: Meta Widget Customizer
 Plugin URI: http://benohead.com
 Description: Adds a customizable meta widget for the sidebar
 Author: Henri Benoit
-Version: 0.2
+Version: 0.3
 Author URI: http://benohead
 License: GPL2
 
