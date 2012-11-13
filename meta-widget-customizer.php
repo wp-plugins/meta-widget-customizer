@@ -31,6 +31,11 @@ License: GPL2
 class Meta_Widget_Customizer {
 
 	function register() {
+	    wp_register_style('meta-widget-customizer-style', plugins_url( 'meta-widget-customizer.css', __FILE__ ));
+	    wp_enqueue_style('meta-widget-customizer-style');
+		wp_enqueue_script('jquery');
+		wp_register_script('meta-widget-customizer-script', plugins_url( 'meta-widget-customizer.js', __FILE__ ));
+		wp_enqueue_script('meta-widget-customizer-script');
 		wp_register_sidebar_widget('meta_widget_customizer', 'Meta Widget Customizer', array('Meta_Widget_Customizer', 'widget'));
 		wp_register_widget_control('meta_widget_customizer', 'Meta Widget Customizer', array('Meta_Widget_Customizer', 'control'));
 	}
@@ -47,15 +52,78 @@ class Meta_Widget_Customizer {
 		    get_currentuserinfo();
         	?><li><a href="/wp-admin/profile.php"><?php echo "$current_user->display_name"; ?></a></li><?php
         }
-        if (! empty($data['register'])) {
-	        wp_register();	    	
-	    }
-	    if (! empty($data['login'])) {
-	        ?><li><?php wp_loginout();
-	    }
-        if (! empty($data['lostpassword']) && (! is_user_logged_in())) {
-	    	?><li><a href="<?php echo wp_lostpassword_url( get_permalink() ); ?>" title="Lost Password">Lost Password</a></li><?php
-	    }
+        if (! empty($data['logintabs'])) { ?>
+			<div id="tabs_container">
+				<ul id="tabs">
+					<li class="active"><a href="#login"><?php _e('Login'); ?></a></li>
+					<li><a href="#register"><?php _e('Register'); ?></a></li>
+					<li><a href="#lostpassword"><?php _e('Lost password'); ?></a></li>
+				</ul>
+			</div>
+			<div id="tabs_content_container">
+				<?php  if(! is_user_logged_in()) { ?>  
+			    <div id="login" class="tab_content" style="display: block;">
+					<form name="loginform" id="loginform" action="<?php echo wp_login_url(); ?>" method="post">
+						<p>
+							<label for="user_login"><?php _e('Username'); ?><br />
+							<input type="text" name="log" id="user_login" class="input" value="" size="20" tabindex="10" /></label>
+						</p>
+						<p>
+							<label for="user_pass"><?php _e('Password'); ?><br />
+							<input type="password" name="pwd" id="user_pass" class="input" value="" size="20" tabindex="20" /></label>
+						</p>
+						<p class="forgetmenot"><label for="rememberme"><input name="rememberme" type="checkbox" id="rememberme" value="forever" tabindex="90" /> <?php _e('Remember Me'); ?></label></p>
+						<p class="submit">
+							<input type="hidden" name="redirect_to" value="<?php echo(site_url( $_SERVER['REQUEST_URI'] )); ?>" />
+							<input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="<?php _e('Log In'); ?>" tabindex="100" />
+							<input type="hidden" name="testcookie" value="1" />
+						</p>
+					</form>
+			    </div>
+				<?php  }
+				if(get_option('users_can_register') && (! is_user_logged_in())) { ?>  
+			    <div id="register" class="tab_content">
+					<form name="registerform" id="registerform" action="<?php echo site_url(); ?>/wp-login.php?action=register" method="post">
+						<p>
+							<label for="user_login"><?php _e('Username'); ?><br />
+							<input type="text" name="user_login" id="user_login" class="input" value="" size="20" tabindex="10" /></label>
+						</p>
+						<p>
+							<label for="user_email"><?php _e('E-mail'); ?><br />
+							<input type="email" name="user_email" id="user_email" class="input" value="" size="25" tabindex="20" /></label>
+						</p>
+						<p id="reg_passmail"><?php _e('A password will be e-mailed to you.'); ?></p>
+						<br class="clear" />
+						<input type="hidden" name="redirect_to" value="<?php echo(site_url( $_SERVER['REQUEST_URI'] )); ?>" />
+						<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="<?php _e('Register'); ?>" tabindex="100" /></p>
+					</form>
+				</div>
+				<?php } 
+				if  (! is_user_logged_in()) { ?>
+			    <div id="lostpassword" class="tab_content">
+					<form name="lostpasswordform" id="lostpasswordform" action="<?php echo wp_lostpassword_url(); ?>" method="post">
+						<p>
+							<label for="user_login" ><?php _e('Username or E-mail:'); ?><br />
+							<input type="text" name="user_login" id="user_login" class="input" value="" size="20" tabindex="10" /></label>
+						</p>
+						<input type="hidden" name="redirect_to" value="<?php echo(site_url( $_SERVER['REQUEST_URI'] )); ?>" />
+						<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="<?php _e('Get New Password'); ?>" tabindex="100" /></p>
+					</form>
+				</div>
+				<?php } ?>
+			</div> <?php
+        }
+        else {
+	        if (! empty($data['register'])) {
+		        wp_register();	    	
+		    }
+		    if (! empty($data['login'])) {
+		        ?><li><?php wp_loginout();
+		    }
+	        if (! empty($data['lostpassword']) && (! is_user_logged_in())) {
+		    	?><li><a href="<?php echo wp_lostpassword_url( get_permalink() ); ?>" title="Lost Password">Lost Password</a></li><?php
+		    }
+		}
 	    if (! empty($data['editlink']) && (is_user_logged_in()) && is_page()) {
 	    	edit_post_link(__('Edit page'), '<li>', '</li>');
 	    }
@@ -79,12 +147,20 @@ class Meta_Widget_Customizer {
 	    }
         if (! empty($data['googlesearch'])) {
 	    ?>
-			<form method="get" id="googlesitesearch" action="https://www.google.com/search">
-				<fieldset>
-					<input type="text" name="q" class="searchquery" value="" />
-					<input type="hidden" name="as_sitesearch" class="searchsite" value="<?php echo site_url(); ?>" />
-					<input type="submit" name="btnG" value="<?php _e('Search'); ?>" />
-				</fieldset>
+			<form method="get" id="googlesitesearch" action="http://www.google.com/search">
+				<table border="0" cellpadding="0">
+					<tr>
+						<td>
+							<input type="text" id="googlesitesearchtext" name="q" maxlength="255" value="" />
+						</td>
+					</tr>
+					<tr>
+						<td align="center" style="font-size:75%">
+							<input type="submit" id="googlesitesearchsubmit" value="<?php _e('Search'); ?>" />
+							<input type="checkbox" id="googlesitesearchcheck" name="sitesearch" value="<?php echo site_url(); ?>" checked /><?php _e('only this site'); ?><br />
+						</td>
+					</tr>
+				</table>
 			</form>
 		<?php
 		}
@@ -120,6 +196,7 @@ class Meta_Widget_Customizer {
                 <p><label for="meta_widget_customizer_title"><?php echo __('Title'); ?></label><input id="meta_widget_customizer_title" name="meta_widget_customizer_title" class="widefat" type="text" value="<?php echo $data['title']; ?>" /></p>
                 <p>
                 <input id="meta_widget_customizer_username" name="meta_widget_customizer_username" type="checkbox" value="1" <?php checked('1', $data['username']); ?> /><label for="meta_widget_customizer_username"><?php echo __('User name'); ?></label><br>
+                <input id="meta_widget_customizer_logintabs" name="meta_widget_customizer_logintabs" type="checkbox" value="1" <?php checked('1', $data['logintabs']); ?> /><label for="meta_widget_customizer_logintabs"><?php echo __('Login tabs'); ?></label><br>
                 <input id="meta_widget_customizer_register" name="meta_widget_customizer_register" type="checkbox" value="1" <?php checked('1', $data['register']); ?> /><label for="meta_widget_customizer_register"><?php echo __('Register'); ?></label><br>
                 <input id="meta_widget_customizer_login" name="meta_widget_customizer_login" type="checkbox" value="1" <?php checked('1', $data['login']); ?> /><label for="meta_widget_customizer_login"><?php echo __('Log in/out'); ?></label><br>
                 <input id="meta_widget_customizer_lostpassword" name="meta_widget_customizer_lostpassword" type="checkbox" value="1" <?php checked('1', $data['lostpassword']); ?> /><label for="meta_widget_customizer_lostpassword"><?php echo __('Lost password'); ?></label><br>
@@ -140,6 +217,7 @@ class Meta_Widget_Customizer {
 		if (isset($_POST['meta_widget_customizer_title'])) {
 			$data['title'] = attribute_escape($_POST['meta_widget_customizer_title']);
 			$data['username'] = attribute_escape($_POST['meta_widget_customizer_username']);
+			$data['logintabs'] = attribute_escape($_POST['meta_widget_customizer_logintabs']);
 			$data['register'] = attribute_escape($_POST['meta_widget_customizer_register']);
 			$data['login'] = attribute_escape($_POST['meta_widget_customizer_login']);
 			$data['lostpassword'] = attribute_escape($_POST['meta_widget_customizer_lostpassword']);
@@ -161,6 +239,7 @@ class Meta_Widget_Customizer {
 		// Add default values
 	    $defaults = array( 'title' => 'Meta',
 	    			   'username' => 0,
+	                   'logintabs' => 0,
 	                   'register' => 1,
 	                   'login' => 1,
 	                   'lostpassword' => 0,
@@ -209,6 +288,7 @@ class Meta_Widget_Customizer {
 
 				<p>The following links are always available in the widget administration:</p>
                 <input id="meta_widget_customizer_username" name="meta_widget_customizer[username]" type="checkbox" value="1" <?php if (isset($data['username'])) { checked('1', $data['username']); } ?> /><label for="meta_widget_customizer_username"><?php echo __('User name'); ?></label><br>
+                <input id="meta_widget_customizer_logintabs" name="meta_widget_customizer[logintabs]" type="checkbox" value="1" <?php if (isset($data['logintabs'])) { checked('1', $data['logintabs']); } ?> /><label for="meta_widget_customizer_logintabs"><?php echo __('Login tabs'); ?></label><br>
                 <input id="meta_widget_customizer_register" name="meta_widget_customizer[register]" type="checkbox" value="1" <?php if (isset($data['register'])) { checked('1', $data['register']); } ?> /><label for="meta_widget_customizer_register"><?php echo __('Register'); ?></label><br>
                 <input id="meta_widget_customizer_login" name="meta_widget_customizer[login]" type="checkbox" value="1" <?php if (isset($data['login'])) { checked('1', $data['login']); } ?> /><label for="meta_widget_customizer_login"><?php echo __('Log in/out'); ?></label><br>
                 <input id="meta_widget_customizer_lostpassword" name="meta_widget_customizer[lostpassword]" type="checkbox" value="1" <?php if (isset($data['lostpassword'])) { checked('1', $data['lostpassword']); } ?> /><label for="meta_widget_customizer_lostpassword"><?php echo __('Lost password'); ?></label><br>

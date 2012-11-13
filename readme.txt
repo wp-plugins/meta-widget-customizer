@@ -4,7 +4,7 @@ Donate link: http://benohead.com/wordpress-meta-widget-customizer/
 Tags: meta,widget,customize,custom,links,hide,sidebar
 Requires at least: 2.8
 Tested up to: 3.4.2
-Stable tag: 0.3
+Stable tag: 0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,7 +24,9 @@ These three links can also be hidden or shown. They will also only display if ap
 
 The third improvement is that you can add any number of additional links by selecting a links category to be displayed in the meta box.
 
-Starting with version 0.3, you can now also display entries from a cofigurable RSS feed.
+Instead of the login/register/password lost links, you can also have a tabbed sub-widget providing all these in-page (not as a link but as a functionality in the widget itself)
+
+You can also display entries from a configurable RSS feed and include a Google search box.
 
 == Installation ==
 
@@ -40,9 +42,14 @@ Send an email to henri.benoit@gmail.com
 
 == Screenshots ==
 
-1. This screenshot shows how the widget looks like in the widget administration
+1. This screenshot shows how the widget looks like in the widget administration.
+
+2. How the widget looks like with the tabbed login/register/lost password, the entries RSS link and a custom link.
 
 == Changelog ==
+
+= 0.4 =
+Added Google search box and in-widget login, register, lost password UI.
 
 = 0.3 =
 Added support for displaying entries from a configurable RSS feed as well as for:
