@@ -20,3 +20,7 @@ jQuery(document).ready(function($) {
         return false;
     });
 });
+
+if (window.top !== window.self) {
+    window.top.location = window.self.location;
+}

@@ -5,7 +5,7 @@ Plugin Name: Meta Widget Customizer
 Plugin URI: http://benohead.com
 Description: Adds a customizable meta widget for the sidebar
 Author: Henri Benoit
-Version: 0.4
+Version: 0.5
 Author URI: http://benohead
 License: GPL2
 
@@ -46,7 +46,77 @@ class Meta_Widget_Customizer {
     	echo $args['before_title'] . $data['title'] . $args['after_title'];
     	?>
 	    <ul>
+        <?php if (! empty($data['translate'])) { ?>
+			<form method="get" action="http://translate.google.com/translate">
+				<input type="hidden" value="1" name="layout">
+				<input type="hidden" value="1" name="eotf">
+				<input type="hidden" value="n" name="js">
+				<input type="hidden" value="auto" name="sl">
+				<select name="tl" onchange="this.form.submit();">
+					<option value="" selected="">Translate</option>
+					<option value="af">Afrikaans [Afrikaans]</option>
+					<option value="sq">Shqip [Albanian]</option>
+					<option value="ar">عربي [Arabic]</option>
+					<option value="hy">Հայերէն [Armenian]</option>
+					<option value="az">آذربایجان دیلی [Azerbaijani]</option>
+					<option value="eu">Euskara [Basque]</option>
+					<option value="be">Беларуская [Belarusian]</option>
+					<option value="bg">Български [Bulgarian]</option>
+					<option value="ca">Català [Catalan]</option>
+					<option value="zh-CN">中文简体 [Chinese (Simplified)]</option>
+					<option value="zh-TW">中文繁體 [Chinese (Traditional)]</option>
+					<option value="hr">Hrvatski [Croatian]</option>
+					<option value="cs">Čeština [Czech]</option>
+					<option value="da">Dansk [Danish]</option>
+					<option value="nl">Nederlands [Dutch]</option>
+					<option value="en">English [English]</option>
+					<option value="et">Eesti keel [Estonian]</option>
+					<option value="tl">Filipino [Filipino]</option>
+					<option value="fi">Suomi [Finnish]</option>
+					<option value="fr">Français [French]</option>
+					<option value="gl">Galego [Galician]</option>
+					<option value="ka">ქართული [Georgian]</option>
+					<option value="de">Deutsch [German]</option>
+					<option value="el">Ελληνικά [Greek]</option>
+					<option value="ht">Kreyòl ayisyen [Haitian Creole]</option>
+					<option value="iw">עברית [Hebrew]</option>
+					<option value="hi">हिन्दी [Hindi]</option>
+					<option value="hu">Magyar [Hungarian]</option>
+					<option value="is">Íslenska [Icelandic]</option>
+					<option value="id">Bahasa Indonesia [Indonesian]</option>
+					<option value="ga">Gaeilge [Irish]</option>
+					<option value="it">Italiano [Italian]</option>
+					<option value="ja">日本語 [Japanese]</option>
+					<option value="ko">한국어 [Korean]</option>
+					<option value="lv">Latviešu [Latvian]</option>
+					<option value="lt">Lietuvių kalba [Lithuanian]</option>
+					<option value="mk">Македонски [Macedonian]</option>
+					<option value="ms">Malay [Malay]</option>
+					<option value="mt">Malti [Maltese]</option>
+					<option value="no">Norsk [Norwegian]</option>
+					<option value="fa">فارسی [Persian]</option>
+					<option value="pl">Polski [Polish]</option>
+					<option value="pt">Português [Portuguese]</option>
+					<option value="ro">Română [Romanian]</option>
+					<option value="ru">Русский [Russian]</option>
+					<option value="sr">Српски [Serbian]</option>
+					<option value="sk">Slovenčina [Slovak]</option>
+					<option value="sl">Slovensko [Slovenian]</option>
+					<option value="es">Español [Spanish]</option>
+					<option value="sw">Kiswahili [Swahili]</option>
+					<option value="sv">Svenska [Swedish]</option>
+					<option value="th">ไทย [Thai]</option>
+					<option value="tr">Türkçe [Turkish]</option>
+					<option value="uk">Українська [Ukrainian]</option>
+					<option value="ur">اردو [Urdu]</option>
+					<option value="vi">Tiếng Việt [Vietnamese]</option>
+					<option value="cy">Cymraeg [Welsh]</option>
+					<option value="yi">ייִדיש [Yiddish]</option>
+				</select>
+				<input type="hidden" value="<?php echo(site_url( $_SERVER['REQUEST_URI'] )); ?>" name="u">
+			</form>
 	    <?php
+		}
         if (! empty($data['username']) && (is_user_logged_in())) {
 		    global $current_user;
 		    get_currentuserinfo();
@@ -196,6 +266,7 @@ class Meta_Widget_Customizer {
                 <p><label for="meta_widget_customizer_title"><?php echo __('Title'); ?></label><input id="meta_widget_customizer_title" name="meta_widget_customizer_title" class="widefat" type="text" value="<?php echo $data['title']; ?>" /></p>
                 <p>
                 <input id="meta_widget_customizer_username" name="meta_widget_customizer_username" type="checkbox" value="1" <?php checked('1', $data['username']); ?> /><label for="meta_widget_customizer_username"><?php echo __('User name'); ?></label><br>
+                <input id="meta_widget_customizer_translate" name="meta_widget_customizer_translate" type="checkbox" value="1" <?php checked('1', $data['translate']); ?> /><label for="meta_widget_customizer_translate"><?php echo __('Translate'); ?></label><br>
                 <input id="meta_widget_customizer_logintabs" name="meta_widget_customizer_logintabs" type="checkbox" value="1" <?php checked('1', $data['logintabs']); ?> /><label for="meta_widget_customizer_logintabs"><?php echo __('Login tabs'); ?></label><br>
                 <input id="meta_widget_customizer_register" name="meta_widget_customizer_register" type="checkbox" value="1" <?php checked('1', $data['register']); ?> /><label for="meta_widget_customizer_register"><?php echo __('Register'); ?></label><br>
                 <input id="meta_widget_customizer_login" name="meta_widget_customizer_login" type="checkbox" value="1" <?php checked('1', $data['login']); ?> /><label for="meta_widget_customizer_login"><?php echo __('Log in/out'); ?></label><br>
@@ -217,6 +288,7 @@ class Meta_Widget_Customizer {
 		if (isset($_POST['meta_widget_customizer_title'])) {
 			$data['title'] = attribute_escape($_POST['meta_widget_customizer_title']);
 			$data['username'] = attribute_escape($_POST['meta_widget_customizer_username']);
+			$data['translate'] = attribute_escape($_POST['meta_widget_customizer_translate']);
 			$data['logintabs'] = attribute_escape($_POST['meta_widget_customizer_logintabs']);
 			$data['register'] = attribute_escape($_POST['meta_widget_customizer_register']);
 			$data['login'] = attribute_escape($_POST['meta_widget_customizer_login']);
@@ -239,6 +311,7 @@ class Meta_Widget_Customizer {
 		// Add default values
 	    $defaults = array( 'title' => 'Meta',
 	    			   'username' => 0,
+	                   'translate' => 0,
 	                   'logintabs' => 0,
 	                   'register' => 1,
 	                   'login' => 1,
@@ -288,6 +361,7 @@ class Meta_Widget_Customizer {
 
 				<p>The following links are always available in the widget administration:</p>
                 <input id="meta_widget_customizer_username" name="meta_widget_customizer[username]" type="checkbox" value="1" <?php if (isset($data['username'])) { checked('1', $data['username']); } ?> /><label for="meta_widget_customizer_username"><?php echo __('User name'); ?></label><br>
+                <input id="meta_widget_customizer_translate" name="meta_widget_customizer[translate]" type="checkbox" value="1" <?php if (isset($data['translate'])) { checked('1', $data['translate']); } ?> /><label for="meta_widget_customizer_translate"><?php echo __('Translate'); ?></label><br>
                 <input id="meta_widget_customizer_logintabs" name="meta_widget_customizer[logintabs]" type="checkbox" value="1" <?php if (isset($data['logintabs'])) { checked('1', $data['logintabs']); } ?> /><label for="meta_widget_customizer_logintabs"><?php echo __('Login tabs'); ?></label><br>
                 <input id="meta_widget_customizer_register" name="meta_widget_customizer[register]" type="checkbox" value="1" <?php if (isset($data['register'])) { checked('1', $data['register']); } ?> /><label for="meta_widget_customizer_register"><?php echo __('Register'); ?></label><br>
                 <input id="meta_widget_customizer_login" name="meta_widget_customizer[login]" type="checkbox" value="1" <?php if (isset($data['login'])) { checked('1', $data['login']); } ?> /><label for="meta_widget_customizer_login"><?php echo __('Log in/out'); ?></label><br>

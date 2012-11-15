@@ -51,3 +51,11 @@
 .tab_content p {
     margin: 0;
 }
+
+#meta_widget_customizer ul form select {
+    margin: 10px;
+}
+
+.gmnoprint, .google-src-text, #google-infowindow, #google-feedback-frame {
+    display: none !important;
+}

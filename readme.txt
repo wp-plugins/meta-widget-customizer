@@ -48,6 +48,9 @@ Send an email to henri.benoit@gmail.com
 
 == Changelog ==
 
+= 0.5 =
+Added translation support using Google translate
+
 = 0.4 =
 Added Google search box and in-widget login, register, lost password UI.
 
