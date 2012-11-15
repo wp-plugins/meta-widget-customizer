@@ -26,7 +26,7 @@ The third improvement is that you can add any number of additional links by sele
 
 Instead of the login/register/password lost links, you can also have a tabbed sub-widget providing all these in-page (not as a link but as a functionality in the widget itself)
 
-You can also display entries from a configurable RSS feed and include a Google search box.
+You can also display entries from a configurable RSS feed, include a Google search box and allow the site to be translated.
 
 == Installation ==
 
