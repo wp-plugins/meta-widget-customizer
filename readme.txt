@@ -3,7 +3,7 @@ Contributors: henribenoit
 Donate link: http://benohead.com/wordpress-meta-widget-customizer/
 Tags: meta,widget,customize,custom,links,hide,sidebar
 Requires at least: 2.8
-Tested up to: 3.4.2
+Tested up to: 3.9.1
 Stable tag: 0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
