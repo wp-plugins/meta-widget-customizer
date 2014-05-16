@@ -5,7 +5,7 @@ Plugin Name: Meta Widget Customizer
 Plugin URI: http://benohead.com
 Description: Adds a customizable meta widget for the sidebar
 Author: Henri Benoit
-Version: 0.5
+Version: 0.6
 Author URI: http://benohead
 License: GPL2
 
@@ -120,14 +120,23 @@ class Meta_Widget_Customizer {
         if (! empty($data['username']) && (is_user_logged_in())) {
 		    global $current_user;
 		    get_currentuserinfo();
-        	?><li><a href="/wp-admin/profile.php"><?php echo "$current_user->display_name"; ?></a></li><?php
+        	?><li><a href="<?php echo site_url("/wp-admin/profile.php"); ?>"><?php echo "$current_user->display_name"; ?></a></li><?php
         }
-        if (! empty($data['logintabs'])) { ?>
+        if ((! empty($data['logintabs']))&&(! is_user_logged_in())) { ?>
 			<div id="tabs_container">
 				<ul id="tabs">
-					<li class="active"><a href="#login"><?php _e('Login', 'meta-widget-customizer'); ?></a></li>
-					<li><a href="#register"><?php _e('Register', 'meta-widget-customizer'); ?></a></li>
-					<li><a href="#lostpassword"><?php _e('Lost password', 'meta-widget-customizer'); ?></a></li>
+<?php
+$active_exists = false;
+?>
+				<?php  if(! is_user_logged_in()) { ?>  
+					<li<?php if(!$active_exists) echo ' class="active"'; $active_exists = true;?>><a href="#login"><?php _e('Login'); ?></a></li>
+				<?php  }
+				if(get_option('users_can_register') && (! is_user_logged_in())) { ?>  
+					<li<?php if(!$active_exists) echo ' class="active"'; $active_exists = true;?>><a href="#register"><?php _e('Register'); ?></a></li>
+				<?php } 
+				if  (! is_user_logged_in()) { ?>
+					<li<?php if(!$active_exists) echo ' class="active"'; $active_exists = true;?>><a href="#lostpassword"><?php _e('Lost password'); ?></a></li>
+				<?php } ?>
 				</ul>
 			</div>
 			<div id="tabs_content_container">
@@ -135,17 +144,17 @@ class Meta_Widget_Customizer {
 			    <div id="login" class="tab_content" style="display: block;">
 					<form name="loginform" id="loginform" action="<?php echo wp_login_url(); ?>" method="post">
 						<p>
-							<label for="user_login"><?php _e('Username', 'meta-widget-customizer'); ?><br />
+							<label for="user_login"><?php _e('Username'); ?><br />
 							<input type="text" name="log" id="user_login" class="input" value="" size="20" tabindex="10" /></label>
 						</p>
 						<p>
-							<label for="user_pass"><?php _e('Password', 'meta-widget-customizer'); ?><br />
+							<label for="user_pass"><?php _e('Password'); ?><br />
 							<input type="password" name="pwd" id="user_pass" class="input" value="" size="20" tabindex="20" /></label>
 						</p>
-						<p class="forgetmenot"><label for="rememberme"><input name="rememberme" type="checkbox" id="rememberme" value="forever" tabindex="90" /> <?php _e('Remember Me', 'meta-widget-customizer'); ?></label></p>
+						<p class="forgetmenot"><label for="rememberme"><input name="rememberme" type="checkbox" id="rememberme" value="forever" tabindex="90" /> <?php _e('Remember Me'); ?></label></p>
 						<p class="submit">
 							<input type="hidden" name="redirect_to" value="<?php echo(site_url( $_SERVER['REQUEST_URI'] )); ?>" />
-							<input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="<?php _e('Log In', 'meta-widget-customizer'); ?>" tabindex="100" />
+							<input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="<?php _e('Log In'); ?>" tabindex="100" />
 							<input type="hidden" name="testcookie" value="1" />
 						</p>
 					</form>
@@ -155,17 +164,17 @@ class Meta_Widget_Customizer {
 			    <div id="register" class="tab_content">
 					<form name="registerform" id="registerform" action="<?php echo site_url(); ?>/wp-login.php?action=register" method="post">
 						<p>
-							<label for="user_login"><?php _e('Username', 'meta-widget-customizer'); ?><br />
+							<label for="user_login"><?php _e('Username'); ?><br />
 							<input type="text" name="user_login" id="user_login" class="input" value="" size="20" tabindex="10" /></label>
 						</p>
 						<p>
-							<label for="user_email"><?php _e('E-mail', 'meta-widget-customizer'); ?><br />
+							<label for="user_email"><?php _e('E-mail'); ?><br />
 							<input type="email" name="user_email" id="user_email" class="input" value="" size="25" tabindex="20" /></label>
 						</p>
-						<p id="reg_passmail"><?php _e('A password will be e-mailed to you.', 'meta-widget-customizer'); ?></p>
+						<p id="reg_passmail"><?php _e('A password will be e-mailed to you.'); ?></p>
 						<br class="clear" />
 						<input type="hidden" name="redirect_to" value="<?php echo(site_url( $_SERVER['REQUEST_URI'] )); ?>" />
-						<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="<?php _e('Register', 'meta-widget-customizer'); ?>" tabindex="100" /></p>
+						<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="<?php _e('Register'); ?>" tabindex="100" /></p>
 					</form>
 				</div>
 				<?php } 
@@ -173,11 +182,11 @@ class Meta_Widget_Customizer {
 			    <div id="lostpassword" class="tab_content">
 					<form name="lostpasswordform" id="lostpasswordform" action="<?php echo wp_lostpassword_url(); ?>" method="post">
 						<p>
-							<label for="user_login" ><?php _e('Username or E-mail:', 'meta-widget-customizer'); ?><br />
+							<label for="user_login" ><?php _e('Username or E-mail:'); ?><br />
 							<input type="text" name="user_login" id="user_login" class="input" value="" size="20" tabindex="10" /></label>
 						</p>
 						<input type="hidden" name="redirect_to" value="<?php echo(site_url( $_SERVER['REQUEST_URI'] )); ?>" />
-						<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="<?php _e('Get New Password', 'meta-widget-customizer'); ?>" tabindex="100" /></p>
+						<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button-primary" value="<?php _e('Get New Password'); ?>" tabindex="100" /></p>
 					</form>
 				</div>
 				<?php } ?>
@@ -195,25 +204,25 @@ class Meta_Widget_Customizer {
 		    }
 		}
 	    if (! empty($data['editlink']) && (is_user_logged_in()) && is_page()) {
-	    	edit_post_link(__('Edit page', 'meta-widget-customizer'), '<li>', '</li>');
+	    	edit_post_link(__('Edit page'), '<li>', '</li>');
 	    }
 	    if (! empty($data['editlink']) && (is_user_logged_in()) && is_single()) {
-	    	edit_post_link(__('Edit post', 'meta-widget-customizer'), '<li>', '</li>');
+	    	edit_post_link(__('Edit post'), '<li>', '</li>');
 	    }
 	    if (! empty($data['adminlink']) && (is_user_logged_in()) && current_user_can("manage_options")) {
-	    	?><li><a href="<?php echo bloginfo("siteurl") ?>/wp-admin/">Dashboard</a></li><?php
+	    	?><li><a href="<?php echo site_url("/wp-admin/"); ?>">Dashboard</a></li><?php
 		}
 	    if (! empty($data['xhtmlvalid']) && (is_user_logged_in()) && current_user_can("manage_options")) {
 	    	?><li><a href="http://validator.w3.org/check?uri=referer" title="Valid XHTML 1.0 Transitional">Valid XHTML</a></li><?php
 		}
         if (! empty($data['entriesrss'])) {
-	        ?><li><a href="<?php bloginfo('rss2_url'); ?>" title="<?php echo esc_attr(__('Syndicate this site using RSS 2.0', 'meta-widget-customizer')); ?>"><?php _e('Entries <abbr title="Really Simple Syndication">RSS</abbr>', 'meta-widget-customizer'); ?></a></li><?php
+	        ?><li><a href="<?php bloginfo('rss2_url'); ?>" title="<?php echo esc_attr(__('Syndicate this site using RSS 2.0')); ?>"><?php _e('Entries <abbr title="Really Simple Syndication">RSS</abbr>'); ?></a></li><?php
 	    }
         if (! empty($data['commentsrss'])) {
-	        ?><li><a href="<?php bloginfo('comments_rss2_url'); ?>" title="<?php echo esc_attr(__('The latest comments to all posts in RSS', 'meta-widget-customizer')); ?>"><?php _e('Comments <abbr title="Really Simple Syndication">RSS</abbr>', 'meta-widget-customizer'); ?></a></li><?php
+	        ?><li><a href="<?php bloginfo('comments_rss2_url'); ?>" title="<?php echo esc_attr(__('The latest comments to all posts in RSS')); ?>"><?php _e('Comments <abbr title="Really Simple Syndication">RSS</abbr>'); ?></a></li><?php
 	    }
         if (! empty($data['wordpressorg'])) {
-	        ?><li><a href="http://wordpress.org/" title="<?php echo esc_attr(__('Powered by WordPress, state-of-the-art semantic personal publishing platform.', 'meta-widget-customizer')); ?>">WordPress.org</a></li><?php
+	        ?><li><a href="http://wordpress.org/" title="<?php echo esc_attr(__('Powered by WordPress, state-of-the-art semantic personal publishing platform.')); ?>">WordPress.org</a></li><?php
 	    }
         if (! empty($data['googlesearch'])) {
 	    ?>
@@ -226,8 +235,8 @@ class Meta_Widget_Customizer {
 					</tr>
 					<tr>
 						<td align="center" style="font-size:75%">
-							<input type="submit" id="googlesitesearchsubmit" value="<?php _e('Search', 'meta-widget-customizer'); ?>" />
-							<input type="checkbox" id="googlesitesearchcheck" name="sitesearch" value="<?php echo site_url(); ?>" checked /><?php _e('only this site', 'meta-widget-customizer'); ?><br />
+							<input type="submit" id="googlesitesearchsubmit" value="<?php _e('Search'); ?>" />
+							<input type="checkbox" id="googlesitesearchcheck" name="sitesearch" value="<?php echo site_url(); ?>" checked /><?php _e('only this site'); ?><br />
 						</td>
 					</tr>
 				</table>
@@ -263,26 +272,26 @@ class Meta_Widget_Customizer {
 	function control() {
 		$data = get_option('meta_widget_customizer');
 		?>
-                <p><label for="meta_widget_customizer_title"><?php echo __('Title', 'meta-widget-customizer'); ?></label><input id="meta_widget_customizer_title" name="meta_widget_customizer_title" class="widefat" type="text" value="<?php echo $data['title']; ?>" /></p>
+                <p><label for="meta_widget_customizer_title"><?php echo __('Title'); ?></label><input id="meta_widget_customizer_title" name="meta_widget_customizer_title" class="widefat" type="text" value="<?php echo $data['title']; ?>" /></p>
                 <p>
-                <input id="meta_widget_customizer_username" name="meta_widget_customizer_username" type="checkbox" value="1" <?php checked('1', $data['username']); ?> /><label for="meta_widget_customizer_username"><?php echo __('User name', 'meta-widget-customizer'); ?></label><br>
-                <input id="meta_widget_customizer_translate" name="meta_widget_customizer_translate" type="checkbox" value="1" <?php checked('1', $data['translate']); ?> /><label for="meta_widget_customizer_translate"><?php echo __('Translate', 'meta-widget-customizer'); ?></label><br>
-                <input id="meta_widget_customizer_logintabs" name="meta_widget_customizer_logintabs" type="checkbox" value="1" <?php checked('1', $data['logintabs']); ?> /><label for="meta_widget_customizer_logintabs"><?php echo __('Login tabs', 'meta-widget-customizer'); ?></label><br>
-                <input id="meta_widget_customizer_register" name="meta_widget_customizer_register" type="checkbox" value="1" <?php checked('1', $data['register']); ?> /><label for="meta_widget_customizer_register"><?php echo __('Register', 'meta-widget-customizer'); ?></label><br>
-                <input id="meta_widget_customizer_login" name="meta_widget_customizer_login" type="checkbox" value="1" <?php checked('1', $data['login']); ?> /><label for="meta_widget_customizer_login"><?php echo __('Log in/out', 'meta-widget-customizer'); ?></label><br>
-                <input id="meta_widget_customizer_lostpassword" name="meta_widget_customizer_lostpassword" type="checkbox" value="1" <?php checked('1', $data['lostpassword']); ?> /><label for="meta_widget_customizer_lostpassword"><?php echo __('Lost password', 'meta-widget-customizer'); ?></label><br>
-                <input id="meta_widget_customizer_editlink" name="meta_widget_customizer_editlink" type="checkbox" value="1" <?php checked('1', $data['editlink']); ?> /><label for="meta_widget_customizer_editlink"><?php echo __('Edit link', 'meta-widget-customizer'); ?></label><br>
-                <input id="meta_widget_customizer_adminlink" name="meta_widget_customizer_adminlink" type="checkbox" value="1" <?php checked('1', $data['adminlink']); ?> /><label for="meta_widget_customizer_adminlink"><?php echo __('Admin link', 'meta-widget-customizer'); ?></label><br>
-                <input id="meta_widget_customizer_xhtmlvalid" name="meta_widget_customizer_xhtmlvalid" type="checkbox" value="1" <?php checked('1', $data['xhtmlvalid']); ?> /><label for="meta_widget_customizer_xhtmlvalid"><?php echo __('XHTML validator link', 'meta-widget-customizer'); ?></label><br>				
-                <input id="meta_widget_customizer_entriesrss" name="meta_widget_customizer_entriesrss" type="checkbox" value="1" <?php checked('1', $data['entriesrss']); ?> /><label for="meta_widget_customizer_entriesrss"><?php echo __('Entries RSS', 'meta-widget-customizer'); ?></label><br>
-                <input id="meta_widget_customizer_commentsrss" name="meta_widget_customizer_commentsrss" type="checkbox" value="1" <?php checked('1', $data['commentsrss']); ?> /><label for="meta_widget_customizer_commentsrss"><?php echo __('Comments RSS', 'meta-widget-customizer'); ?></label><br>
-                <input id="meta_widget_customizer_wordpressorg" name="meta_widget_customizer_wordpressorg" type="checkbox" value="1" <?php checked('1', $data['wordpressorg']); ?> /><label for="meta_widget_customizer_wordpressorg"><?php echo __('WordPress.org', 'meta-widget-customizer'); ?></label><br>
-                <input id="meta_widget_customizer_googlesearch" name="meta_widget_customizer_googlesearch" type="checkbox" value="1" <?php checked('1', $data['googlesearch']); ?> /><label for="meta_widget_customizer_googlesearch"><?php echo __('Google search', 'meta-widget-customizer'); ?></label>
+                <input id="meta_widget_customizer_username" name="meta_widget_customizer_username" type="checkbox" value="1" <?php checked('1', $data['username']); ?> /><label for="meta_widget_customizer_username"><?php echo __('User name'); ?></label><br>
+                <input id="meta_widget_customizer_translate" name="meta_widget_customizer_translate" type="checkbox" value="1" <?php checked('1', $data['translate']); ?> /><label for="meta_widget_customizer_translate"><?php echo __('Translate'); ?></label><br>
+                <input id="meta_widget_customizer_logintabs" name="meta_widget_customizer_logintabs" type="checkbox" value="1" <?php checked('1', $data['logintabs']); ?> /><label for="meta_widget_customizer_logintabs"><?php echo __('Login tabs'); ?></label><br>
+                <input id="meta_widget_customizer_register" name="meta_widget_customizer_register" type="checkbox" value="1" <?php checked('1', $data['register']); ?> /><label for="meta_widget_customizer_register"><?php echo __('Register'); ?></label><br>
+                <input id="meta_widget_customizer_login" name="meta_widget_customizer_login" type="checkbox" value="1" <?php checked('1', $data['login']); ?> /><label for="meta_widget_customizer_login"><?php echo __('Log in/out'); ?></label><br>
+                <input id="meta_widget_customizer_lostpassword" name="meta_widget_customizer_lostpassword" type="checkbox" value="1" <?php checked('1', $data['lostpassword']); ?> /><label for="meta_widget_customizer_lostpassword"><?php echo __('Lost password'); ?></label><br>
+                <input id="meta_widget_customizer_editlink" name="meta_widget_customizer_editlink" type="checkbox" value="1" <?php checked('1', $data['editlink']); ?> /><label for="meta_widget_customizer_editlink"><?php echo __('Edit link'); ?></label><br>
+                <input id="meta_widget_customizer_adminlink" name="meta_widget_customizer_adminlink" type="checkbox" value="1" <?php checked('1', $data['adminlink']); ?> /><label for="meta_widget_customizer_adminlink"><?php echo __('Admin link'); ?></label><br>
+                <input id="meta_widget_customizer_xhtmlvalid" name="meta_widget_customizer_xhtmlvalid" type="checkbox" value="1" <?php checked('1', $data['xhtmlvalid']); ?> /><label for="meta_widget_customizer_xhtmlvalid"><?php echo __('XHTML validator link'); ?></label><br>				
+                <input id="meta_widget_customizer_entriesrss" name="meta_widget_customizer_entriesrss" type="checkbox" value="1" <?php checked('1', $data['entriesrss']); ?> /><label for="meta_widget_customizer_entriesrss"><?php echo __('Entries RSS'); ?></label><br>
+                <input id="meta_widget_customizer_commentsrss" name="meta_widget_customizer_commentsrss" type="checkbox" value="1" <?php checked('1', $data['commentsrss']); ?> /><label for="meta_widget_customizer_commentsrss"><?php echo __('Comments RSS'); ?></label><br>
+                <input id="meta_widget_customizer_wordpressorg" name="meta_widget_customizer_wordpressorg" type="checkbox" value="1" <?php checked('1', $data['wordpressorg']); ?> /><label for="meta_widget_customizer_wordpressorg"><?php echo __('WordPress.org'); ?></label><br>
+                <input id="meta_widget_customizer_googlesearch" name="meta_widget_customizer_googlesearch" type="checkbox" value="1" <?php checked('1', $data['googlesearch']); ?> /><label for="meta_widget_customizer_googlesearch"><?php echo __('Google search'); ?></label>
                 <p>Show also links from this category:</p>
-				<?php wp_dropdown_categories(array('hide_empty' => 0, 'id' => 'meta_widget_customizer_select_category', 'name' => 'meta_widget_customizer_select_category', 'selected' => $data['select_category'], 'show_count' => 1, 'show_option_none' => __('None', 'meta-widget-customizer'), 'taxonomy' => 'link_category')); ?>
+				<?php wp_dropdown_categories(array('hide_empty' => 0, 'id' => 'meta_widget_customizer_select_category', 'name' => 'meta_widget_customizer_select_category', 'selected' => $data['select_category'], 'show_count' => 1, 'show_option_none' => __('None'), 'taxonomy' => 'link_category')); ?>
                 <p>Show also items from this feed:</p>
-                <label for="meta_widget_customizer_feedurl"><?php echo __('Feed URL', 'meta-widget-customizer'); ?></label><input id="meta_widget_customizer_feedurl" name="meta_widget_customizer_feedurl" type="text" size="50" value="<?php echo($data['feedurl']); ?>" /><br>
-				<label for="meta_widget_customizer_feeditems"><?php echo __('Number of feed items', 'meta-widget-customizer'); ?></label><input id="meta_widget_customizer_feeditems" name="meta_widget_customizer_feeditems" type="text" size="2" value="<?php echo($data['feeditems']); ?>" /><br>
+                <label for="meta_widget_customizer_feedurl"><?php echo __('Feed URL'); ?></label><input id="meta_widget_customizer_feedurl" name="meta_widget_customizer_feedurl" type="text" class="widefat" value="<?php echo($data['feedurl']); ?>" /><br>
+				<label for="meta_widget_customizer_feeditems"><?php echo __('Number of feed items'); ?></label><input id="meta_widget_customizer_feeditems" name="meta_widget_customizer_feeditems" type="text" size="2" value="<?php echo($data['feeditems']); ?>" /><br>
             	</p>
 		<?php
 		if (isset($_POST['meta_widget_customizer_title'])) {
@@ -360,32 +369,32 @@ class Meta_Widget_Customizer {
 				?>
 
 				<p>The following links are always available in the widget administration:</p>
-                <input id="meta_widget_customizer_username" name="meta_widget_customizer[username]" type="checkbox" value="1" <?php if (isset($data['username'])) { checked('1', $data['username']); } ?> /><label for="meta_widget_customizer_username"><?php echo __('User name', 'meta-widget-customizer'); ?></label><br>
-                <input id="meta_widget_customizer_translate" name="meta_widget_customizer[translate]" type="checkbox" value="1" <?php if (isset($data['translate'])) { checked('1', $data['translate']); } ?> /><label for="meta_widget_customizer_translate"><?php echo __('Translate', 'meta-widget-customizer'); ?></label><br>
-                <input id="meta_widget_customizer_logintabs" name="meta_widget_customizer[logintabs]" type="checkbox" value="1" <?php if (isset($data['logintabs'])) { checked('1', $data['logintabs']); } ?> /><label for="meta_widget_customizer_logintabs"><?php echo __('Login tabs', 'meta-widget-customizer'); ?></label><br>
-                <input id="meta_widget_customizer_register" name="meta_widget_customizer[register]" type="checkbox" value="1" <?php if (isset($data['register'])) { checked('1', $data['register']); } ?> /><label for="meta_widget_customizer_register"><?php echo __('Register', 'meta-widget-customizer'); ?></label><br>
-                <input id="meta_widget_customizer_login" name="meta_widget_customizer[login]" type="checkbox" value="1" <?php if (isset($data['login'])) { checked('1', $data['login']); } ?> /><label for="meta_widget_customizer_login"><?php echo __('Log in/out', 'meta-widget-customizer'); ?></label><br>
-                <input id="meta_widget_customizer_lostpassword" name="meta_widget_customizer[lostpassword]" type="checkbox" value="1" <?php if (isset($data['lostpassword'])) { checked('1', $data['lostpassword']); } ?> /><label for="meta_widget_customizer_lostpassword"><?php echo __('Lost password', 'meta-widget-customizer'); ?></label><br>
-                <input id="meta_widget_customizer_editlink" name="meta_widget_customizer[editlink]" type="checkbox" value="1" <?php if (isset($data['editlink'])) { checked('1', $data['editlink']); } ?> /><label for="meta_widget_customizer_editlink"><?php echo __('Edit link', 'meta-widget-customizer'); ?></label><br>
-                <input id="meta_widget_customizer_adminlink" name="meta_widget_customizer[adminlink]" type="checkbox" value="1" <?php if (isset($data['adminlink'])) { checked('1', $data['adminlink']); } ?> /><label for="meta_widget_customizer_adminlink"><?php echo __('Admin link', 'meta-widget-customizer'); ?></label><br>
-                <input id="meta_widget_customizer_xhtmlvalid" name="meta_widget_customizer[xhtmlvalid]" type="checkbox" value="1" <?php if (isset($data['xhtmlvalid'])) { checked('1', $data['xhtmlvalid']); } ?> /><label for="meta_widget_customizer_xhtmlvalid"><?php echo __('XHTML validator link', 'meta-widget-customizer'); ?></label><br>				
-                <input id="meta_widget_customizer_entriesrss" name="meta_widget_customizer[entriesrss]" type="checkbox" value="1" <?php if (isset($data['entriesrss'])) { checked('1', $data['entriesrss']); } ?> /><label for="meta_widget_customizer_entriesrss"><?php echo __('Entries RSS', 'meta-widget-customizer'); ?></label><br>
-                <input id="meta_widget_customizer_commentsrss" name="meta_widget_customizer[commentsrss]" type="checkbox" value="1" <?php if (isset($data['commentsrss'])) { checked('1', $data['commentsrss']); } ?> /><label for="meta_widget_customizer[commentsrss]"><?php echo __('Comments RSS', 'meta-widget-customizer'); ?></label><br>
-                <input id="meta_widget_customizer_wordpressorg" name="meta_widget_customizer[wordpressorg]" type="checkbox" value="1" <?php if (isset($data['wordpressorg'])) { checked('1', $data['wordpressorg']); } ?> /><label for="meta_widget_customizer_wordpressorg"><?php echo __('WordPress.org', 'meta-widget-customizer'); ?></label><br>
-                <input id="meta_widget_customizer_googlesearch" name="meta_widget_customizer[googlesearch]" type="checkbox" value="1" <?php if (isset($data['googlesearch'])) { checked('1', $data['googlesearch']); } ?> /><label for="meta_widget_customizer_googlesearch"><?php echo __('Google search', 'meta-widget-customizer'); ?></label>
+                <input id="meta_widget_customizer_username" name="meta_widget_customizer[username]" type="checkbox" value="1" <?php if (isset($data['username'])) { checked('1', $data['username']); } ?> /><label for="meta_widget_customizer_username"><?php echo __('User name'); ?></label><br>
+                <input id="meta_widget_customizer_translate" name="meta_widget_customizer[translate]" type="checkbox" value="1" <?php if (isset($data['translate'])) { checked('1', $data['translate']); } ?> /><label for="meta_widget_customizer_translate"><?php echo __('Translate'); ?></label><br>
+                <input id="meta_widget_customizer_logintabs" name="meta_widget_customizer[logintabs]" type="checkbox" value="1" <?php if (isset($data['logintabs'])) { checked('1', $data['logintabs']); } ?> /><label for="meta_widget_customizer_logintabs"><?php echo __('Login tabs'); ?></label><br>
+                <input id="meta_widget_customizer_register" name="meta_widget_customizer[register]" type="checkbox" value="1" <?php if (isset($data['register'])) { checked('1', $data['register']); } ?> /><label for="meta_widget_customizer_register"><?php echo __('Register'); ?></label><br>
+                <input id="meta_widget_customizer_login" name="meta_widget_customizer[login]" type="checkbox" value="1" <?php if (isset($data['login'])) { checked('1', $data['login']); } ?> /><label for="meta_widget_customizer_login"><?php echo __('Log in/out'); ?></label><br>
+                <input id="meta_widget_customizer_lostpassword" name="meta_widget_customizer[lostpassword]" type="checkbox" value="1" <?php if (isset($data['lostpassword'])) { checked('1', $data['lostpassword']); } ?> /><label for="meta_widget_customizer_lostpassword"><?php echo __('Lost password'); ?></label><br>
+                <input id="meta_widget_customizer_editlink" name="meta_widget_customizer[editlink]" type="checkbox" value="1" <?php if (isset($data['editlink'])) { checked('1', $data['editlink']); } ?> /><label for="meta_widget_customizer_editlink"><?php echo __('Edit link'); ?></label><br>
+                <input id="meta_widget_customizer_adminlink" name="meta_widget_customizer[adminlink]" type="checkbox" value="1" <?php if (isset($data['adminlink'])) { checked('1', $data['adminlink']); } ?> /><label for="meta_widget_customizer_adminlink"><?php echo __('Admin link'); ?></label><br>
+                <input id="meta_widget_customizer_xhtmlvalid" name="meta_widget_customizer[xhtmlvalid]" type="checkbox" value="1" <?php if (isset($data['xhtmlvalid'])) { checked('1', $data['xhtmlvalid']); } ?> /><label for="meta_widget_customizer_xhtmlvalid"><?php echo __('XHTML validator link'); ?></label><br>				
+                <input id="meta_widget_customizer_entriesrss" name="meta_widget_customizer[entriesrss]" type="checkbox" value="1" <?php if (isset($data['entriesrss'])) { checked('1', $data['entriesrss']); } ?> /><label for="meta_widget_customizer_entriesrss"><?php echo __('Entries RSS'); ?></label><br>
+                <input id="meta_widget_customizer_commentsrss" name="meta_widget_customizer[commentsrss]" type="checkbox" value="1" <?php if (isset($data['commentsrss'])) { checked('1', $data['commentsrss']); } ?> /><label for="meta_widget_customizer[commentsrss]"><?php echo __('Comments RSS'); ?></label><br>
+                <input id="meta_widget_customizer_wordpressorg" name="meta_widget_customizer[wordpressorg]" type="checkbox" value="1" <?php if (isset($data['wordpressorg'])) { checked('1', $data['wordpressorg']); } ?> /><label for="meta_widget_customizer_wordpressorg"><?php echo __('WordPress.org'); ?></label><br>
+                <input id="meta_widget_customizer_googlesearch" name="meta_widget_customizer[googlesearch]" type="checkbox" value="1" <?php if (isset($data['googlesearch'])) { checked('1', $data['googlesearch']); } ?> /><label for="meta_widget_customizer_googlesearch"><?php echo __('Google search'); ?></label>
 
 				<p>Additionally you can define a link category which links will also be shown in the meta box.</p>
                 <p>Show also links from this category:</p>
                 <?php
-					wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'meta_widget_customizer[select_category]', 'selected' => $data['select_category'], 'show_count' => 1, 'show_option_none' => __('None', 'meta-widget-customizer'), 'taxonomy' => 'link_category'));
+					wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'meta_widget_customizer[select_category]', 'selected' => $data['select_category'], 'show_count' => 1, 'show_option_none' => __('None'), 'taxonomy' => 'link_category'));
 				?>
-				<p>You can add a new category where you'll store the links you want to be able to display in the meta box <a href="/wp-admin/edit-tags.php?taxonomy=link_category">here</a></p>
+				<p>You can add a new category where you'll store the links you want to be able to display in the meta box <a href="<?php echo site_url("/wp-admin/edit-tags.php?taxonomy=link_category"); ?>">here</a></p>
                 <p>Show also items from this feed:</p>
-                <label for="meta_widget_customizer[feedurl]"><?php echo __('Feed URL', 'meta-widget-customizer'); ?></label><input id="meta_widget_customizer_feedurl" name="meta_widget_customizer[feedurl]" type="text" size="50" value="<?php echo($data['feedurl']); ?>" /><br>
-				<label for="meta_widget_customizer[feeditems]"><?php echo __('Number of feed items', 'meta-widget-customizer'); ?></label><input id="meta_widget_customizer_feeditems" name="meta_widget_customizer[feeditems]" type="text" size="2" value="<?php echo($data['feeditems']); ?>" /><br>
+                <label for="meta_widget_customizer[feedurl]"><?php echo __('Feed URL'); ?></label><input id="meta_widget_customizer_feedurl" name="meta_widget_customizer[feedurl]" type="text" size="50" value="<?php echo($data['feedurl']); ?>" /><br>
+				<label for="meta_widget_customizer[feeditems]"><?php echo __('Number of feed items'); ?></label><input id="meta_widget_customizer_feeditems" name="meta_widget_customizer[feeditems]" type="text" size="2" value="<?php echo($data['feeditems']); ?>" /><br>
 
 				<p class="submit">
-				<input type="submit" class="button-primary" value="<?php _e('Save Changes', 'meta-widget-customizer') ?>" />
+				<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
 				</p>
 			</form>
 		</div>
@@ -393,7 +402,7 @@ class Meta_Widget_Customizer {
 	}
 
 	function plugin_action_links($links) {
-		$my_links = '<a href="'.get_admin_url().'options-general.php?page=meta-widget-customizer/meta-widget-customizer.php">'.__('Settings', 'meta-widget-customizer').'</a>';
+		$my_links = '<a href="'.get_admin_url().'options-general.php?page=meta-widget-customizer/meta-widget-customizer.php">'.__('Settings').'</a>';
 		array_unshift( $links, $my_links );
 		return $links;
 	}

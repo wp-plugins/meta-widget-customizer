@@ -21,9 +21,8 @@ jQuery(document).ready(function($) {
     });
 });
 
+/*
 if (window.top !== window.self) {
     window.top.location = window.self.location;
 }
-
-window['_tipoff']=function(){};
-window['_tipon']=function(a){};
+*/
