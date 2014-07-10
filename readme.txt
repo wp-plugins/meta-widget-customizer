@@ -1,5 +1,5 @@
-=== Plugin Name ===
-Contributors: benohead
+=== Meta Widget Customizer ===
+Contributors: benohead, amazingweb-gmbh
 Donate link: http://benohead.com/wordpress-meta-widget-customizer/
 Tags: meta,widget,customize,custom,links,hide,sidebar
 Requires at least: 2.8
