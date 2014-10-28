@@ -5,7 +5,7 @@ Plugin Name: Meta Widget Customizer
 Plugin URI: http://benohead.com
 Description: Adds a customizable meta widget for the sidebar
 Author: Henri Benoit
-Version: 0.6.1
+Version: 0.6.2
 Author URI: http://benohead
 License: GPL2
 
@@ -31,7 +31,7 @@ License: GPL2
 class Meta_Widget_Customizer
 {
 
-    function register()
+    static function register()
     {
         wp_register_style('meta-widget-customizer-style', plugins_url('meta-widget-customizer.css', __FILE__));
         wp_enqueue_style('meta-widget-customizer-style');
@@ -42,7 +42,7 @@ class Meta_Widget_Customizer
         wp_register_widget_control('meta_widget_customizer', 'Meta Widget Customizer', array('Meta_Widget_Customizer', 'control'));
     }
 
-    function widget($args)
+    static function widget($args)
     {
         $data = get_option('meta_widget_customizer');
         echo $args['before_widget'];
@@ -175,11 +175,17 @@ class Meta_Widget_Customizer
                                 </label></p>
 
                             <p class="submit">
+                                <?php
+                                $protocol='http';
+                                if (isset($_SERVER['HTTPS']))
+                                    if (strtoupper($_SERVER['HTTPS'])=='ON')
+                                        $protocol='https';
+                                ?>
                                 <input type="hidden" name="redirect_to"
-                                       value="<?php echo(site_url($_SERVER['REQUEST_URI'])); ?>"/>
+                                       value="<?php echo(/*site_url($_SERVER['REQUEST_URI'])*/$protocol."://".$_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]); ?>"/>
                                 <input type="submit" name="wp-submit" id="wp-submit" class="button-primary"
                                        value="<?php _e('Log In'); ?>" tabindex="100"/>
-                                <input type="hidden" name="testcookie" value="1"/>
+                                <!--input type="hidden" name="testcookie" value="1"/-->
                             </p>
                         </form>
                     </div>
@@ -330,7 +336,7 @@ class Meta_Widget_Customizer
         echo $args['after_widget'];
     }
 
-    function control()
+    static function control()
     {
         $data = get_option('meta_widget_customizer');
         ?>
@@ -389,28 +395,28 @@ class Meta_Widget_Customizer
         </p>
         <?php
         if (isset($_POST['meta_widget_customizer_title'])) {
-            $data['title'] = attribute_escape($_POST['meta_widget_customizer_title']);
-            $data['username'] = attribute_escape($_POST['meta_widget_customizer_username']);
-            $data['translate'] = attribute_escape($_POST['meta_widget_customizer_translate']);
-            $data['logintabs'] = attribute_escape($_POST['meta_widget_customizer_logintabs']);
-            $data['register'] = attribute_escape($_POST['meta_widget_customizer_register']);
-            $data['login'] = attribute_escape($_POST['meta_widget_customizer_login']);
-            $data['lostpassword'] = attribute_escape($_POST['meta_widget_customizer_lostpassword']);
-            $data['editlink'] = attribute_escape($_POST['meta_widget_customizer_editlink']);
-            $data['adminlink'] = attribute_escape($_POST['meta_widget_customizer_adminlink']);
-            $data['xhtmlvalid'] = attribute_escape($_POST['meta_widget_customizer_xhtmlvalid']);
-            $data['entriesrss'] = attribute_escape($_POST['meta_widget_customizer_entriesrss']);
-            $data['commentsrss'] = attribute_escape($_POST['meta_widget_customizer_commentsrss']);
-            $data['wordpressorg'] = attribute_escape($_POST['meta_widget_customizer_wordpressorg']);
-            $data['googlesearch'] = attribute_escape($_POST['meta_widget_customizer_googlesearch']);
-            $data['select_category'] = attribute_escape($_POST['meta_widget_customizer_select_category']);
-            $data['feedurl'] = attribute_escape($_POST['meta_widget_customizer_feedurl']);
-            $data['feeditems'] = attribute_escape($_POST['meta_widget_customizer_feeditems']);
+            $data['title'] = esc_attr($_POST['meta_widget_customizer_title']);
+            $data['username'] = esc_attr($_POST['meta_widget_customizer_username']);
+            $data['translate'] = esc_attr($_POST['meta_widget_customizer_translate']);
+            $data['logintabs'] = esc_attr($_POST['meta_widget_customizer_logintabs']);
+            $data['register'] = esc_attr($_POST['meta_widget_customizer_register']);
+            $data['login'] = esc_attr($_POST['meta_widget_customizer_login']);
+            $data['lostpassword'] = esc_attr($_POST['meta_widget_customizer_lostpassword']);
+            $data['editlink'] = esc_attr($_POST['meta_widget_customizer_editlink']);
+            $data['adminlink'] = esc_attr($_POST['meta_widget_customizer_adminlink']);
+            $data['xhtmlvalid'] = esc_attr($_POST['meta_widget_customizer_xhtmlvalid']);
+            $data['entriesrss'] = esc_attr($_POST['meta_widget_customizer_entriesrss']);
+            $data['commentsrss'] = esc_attr($_POST['meta_widget_customizer_commentsrss']);
+            $data['wordpressorg'] = esc_attr($_POST['meta_widget_customizer_wordpressorg']);
+            $data['googlesearch'] = esc_attr($_POST['meta_widget_customizer_googlesearch']);
+            $data['select_category'] = esc_attr($_POST['meta_widget_customizer_select_category']);
+            $data['feedurl'] = esc_attr($_POST['meta_widget_customizer_feedurl']);
+            $data['feeditems'] = esc_attr($_POST['meta_widget_customizer_feeditems']);
             update_option('meta_widget_customizer', $data);
         }
     }
 
-    function activate()
+    static function activate()
     {
         // Add default values
         $defaults = array('title' => 'Meta',
@@ -439,17 +445,17 @@ class Meta_Widget_Customizer
                 } */
     }
 
-    function deactivate()
+    static function deactivate()
     {
         delete_option('meta_widget_customizer');
     }
 
-    function admin_init()
+    static function admin_init()
     {
         register_setting('meta_widget_customizer_plugin_options', 'meta_widget_customizer');
     }
 
-    function add_options_page()
+    static function add_options_page()
     {
         add_options_page('Meta Widget Customizer Options Page', 'Meta Widget Customizer', 'manage_options', __FILE__, array('Meta_Widget_Customizer', 'render_option_form'));
     }
@@ -547,7 +553,7 @@ class Meta_Widget_Customizer
     <?php
     }
 
-    function plugin_action_links($links)
+    static function plugin_action_links($links)
     {
         $my_links = '<a href="' . get_admin_url() . 'options-general.php?page=meta-widget-customizer/meta-widget-customizer.php">' . __('Settings') . '</a>';
         array_unshift($links, $my_links);
