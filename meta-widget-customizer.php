@@ -5,7 +5,7 @@ Plugin Name: Meta Widget Customizer
 Plugin URI: http://benohead.com
 Description: Adds a customizable meta widget for the sidebar
 Author: Henri Benoit
-Version: 0.6.2
+Version: 0.6.3
 Author URI: http://benohead
 License: GPL2
 
@@ -46,7 +46,7 @@ class Meta_Widget_Customizer
     {
         $data = get_option('meta_widget_customizer');
         echo $args['before_widget'];
-        echo $args['before_title'] . $data['title'] . $args['after_title'];
+        echo $args['before_title'] . (isset($data['title']) ? $data['title'] : "") . $args['after_title'];
         ?>
         <ul>
         <?php if (!empty($data['translate'])) { ?>
@@ -230,8 +230,8 @@ class Meta_Widget_Customizer
                                     <input type="text" name="user_login" id="user_login" class="input" value=""
                                            size="20" tabindex="10"/></label>
                             </p>
-                            <input type="hidden" name="redirect_to"
-                                   value="<?php echo(site_url($_SERVER['REQUEST_URI'])); ?>"/>
+                            <!--input type="hidden" name="redirect_to"
+                                   value="<?php echo(site_url($_SERVER['REQUEST_URI'])); ?>"/-->
 
                             <p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
                                                      class="button-primary" value="<?php _e('Get New Password'); ?>"
@@ -460,7 +460,7 @@ class Meta_Widget_Customizer
         add_options_page('Meta Widget Customizer Options Page', 'Meta Widget Customizer', 'manage_options', __FILE__, array('Meta_Widget_Customizer', 'render_option_form'));
     }
 
-    function render_option_form()
+    static function render_option_form()
     {
         ?>
         <div class="wrap">
