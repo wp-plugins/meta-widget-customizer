@@ -5,7 +5,7 @@ Plugin Name: Meta Widget Customizer
 Plugin URI: http://benohead.com
 Description: Adds a customizable meta widget for the sidebar
 Author: Henri Benoit
-Version: 0.6.3
+Version: 0.6.4
 Author URI: http://benohead
 License: GPL2
 
@@ -44,6 +44,10 @@ class Meta_Widget_Customizer
 
     static function widget($args)
     {
+        $protocol='http';
+        if (isset($_SERVER['HTTPS']))
+            if (strtoupper($_SERVER['HTTPS'])=='ON')
+                $protocol='https';
         $data = get_option('meta_widget_customizer');
         echo $args['before_widget'];
         echo $args['before_title'] . (isset($data['title']) ? $data['title'] : "") . $args['after_title'];
@@ -116,7 +120,7 @@ class Meta_Widget_Customizer
                     <option value="cy">Cymraeg [Welsh]</option>
                     <option value="yi">ייִדיש [Yiddish]</option>
                 </select>
-                <input type="hidden" value="<?php echo(site_url($_SERVER['REQUEST_URI'])); ?>" name="u">
+                <input type="hidden" value="<?php echo($protocol."://".$_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]); ?>" name="u">
             </form>
         <?php
         }
@@ -175,12 +179,6 @@ class Meta_Widget_Customizer
                                 </label></p>
 
                             <p class="submit">
-                                <?php
-                                $protocol='http';
-                                if (isset($_SERVER['HTTPS']))
-                                    if (strtoupper($_SERVER['HTTPS'])=='ON')
-                                        $protocol='https';
-                                ?>
                                 <input type="hidden" name="redirect_to"
                                        value="<?php echo(/*site_url($_SERVER['REQUEST_URI'])*/$protocol."://".$_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]); ?>"/>
                                 <input type="submit" name="wp-submit" id="wp-submit" class="button-primary"
