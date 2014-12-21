@@ -5,7 +5,7 @@ Plugin Name: Meta Widget Customizer
 Plugin URI: http://benohead.com
 Description: Adds a customizable meta widget for the sidebar
 Author: Henri Benoit
-Version: 0.7
+Version: 0.7.1
 Author URI: http://benohead
 License: GPL2
 
@@ -342,45 +342,59 @@ class Meta_Widget_Customizer
                 id="meta_widget_customizer_title" name="meta_widget_customizer_title" class="widefat" type="text"
                 value="<?php echo $data['title']; ?>"/></p>
         <p>
-            <input id="meta_widget_customizer_username" name="meta_widget_customizer_username" type="checkbox"
-                   value="1" <?php checked('1', $data['username']); ?> /><label
-                for="meta_widget_customizer_username"><?php echo __('User name'); ?></label><br>
-            <input id="meta_widget_customizer_translate" name="meta_widget_customizer_translate" type="checkbox"
-                   value="1" <?php checked('1', $data['translate']); ?> /><label
-                for="meta_widget_customizer_translate"><?php echo __('Translate'); ?></label><br>
-            <input id="meta_widget_customizer_logintabs" name="meta_widget_customizer_logintabs" type="checkbox"
-                   value="1" <?php checked('1', $data['logintabs']); ?> /><label
-                for="meta_widget_customizer_logintabs"><?php echo __('Login tabs'); ?></label><br>
-            <input id="meta_widget_customizer_register" name="meta_widget_customizer_register" type="checkbox"
-                   value="1" <?php checked('1', $data['register']); ?> /><label
-                for="meta_widget_customizer_register"><?php echo __('Register'); ?></label><br>
-            <input id="meta_widget_customizer_login" name="meta_widget_customizer_login" type="checkbox"
-                   value="1" <?php checked('1', $data['login']); ?> /><label
-                for="meta_widget_customizer_login"><?php echo __('Log in/out'); ?></label><br>
-            <input id="meta_widget_customizer_lostpassword" name="meta_widget_customizer_lostpassword" type="checkbox"
-                   value="1" <?php checked('1', $data['lostpassword']); ?> /><label
-                for="meta_widget_customizer_lostpassword"><?php echo __('Lost password'); ?></label><br>
-            <input id="meta_widget_customizer_editlink" name="meta_widget_customizer_editlink" type="checkbox"
-                   value="1" <?php checked('1', $data['editlink']); ?> /><label
-                for="meta_widget_customizer_editlink"><?php echo __('Edit link'); ?></label><br>
-            <input id="meta_widget_customizer_adminlink" name="meta_widget_customizer_adminlink" type="checkbox"
-                   value="1" <?php checked('1', $data['adminlink']); ?> /><label
-                for="meta_widget_customizer_adminlink"><?php echo __('Admin link'); ?></label><br>
-            <input id="meta_widget_customizer_xhtmlvalid" name="meta_widget_customizer_xhtmlvalid" type="checkbox"
-                   value="1" <?php checked('1', $data['xhtmlvalid']); ?> /><label
+            <input id="meta_widget_customizer_username" name="meta_widget_customizer[username]" type="checkbox"
+                   value="1" <?php if (isset($data['username'])) {
+                checked('1', $data['username']);
+            } ?> /><label for="meta_widget_customizer_username"><?php echo __('User name'); ?></label><br>
+            <input id="meta_widget_customizer_translate" name="meta_widget_customizer[translate]" type="checkbox"
+                   value="1" <?php if (isset($data['translate'])) {
+                checked('1', $data['translate']);
+            } ?> /><label for="meta_widget_customizer_translate"><?php echo __('Translate'); ?></label><br>
+            <input id="meta_widget_customizer_logintabs" name="meta_widget_customizer[logintabs]" type="checkbox"
+                   value="1" <?php if (isset($data['logintabs'])) {
+                checked('1', $data['logintabs']);
+            } ?> /><label for="meta_widget_customizer_logintabs"><?php echo __('Login tabs'); ?></label><br>
+            <input id="meta_widget_customizer_register" name="meta_widget_customizer[register]" type="checkbox"
+                   value="1" <?php if (isset($data['register'])) {
+                checked('1', $data['register']);
+            } ?> /><label for="meta_widget_customizer_register"><?php echo __('Register'); ?></label><br>
+            <input id="meta_widget_customizer_login" name="meta_widget_customizer[login]" type="checkbox"
+                   value="1" <?php if (isset($data['login'])) {
+                checked('1', $data['login']);
+            } ?> /><label for="meta_widget_customizer_login"><?php echo __('Log in/out'); ?></label><br>
+            <input id="meta_widget_customizer_lostpassword" name="meta_widget_customizer[lostpassword]"
+                   type="checkbox" value="1" <?php if (isset($data['lostpassword'])) {
+                checked('1', $data['lostpassword']);
+            } ?> /><label for="meta_widget_customizer_lostpassword"><?php echo __('Lost password'); ?></label><br>
+            <input id="meta_widget_customizer_editlink" name="meta_widget_customizer[editlink]" type="checkbox"
+                   value="1" <?php if (isset($data['editlink'])) {
+                checked('1', $data['editlink']);
+            } ?> /><label for="meta_widget_customizer_editlink"><?php echo __('Edit link'); ?></label><br>
+            <input id="meta_widget_customizer_adminlink" name="meta_widget_customizer[adminlink]" type="checkbox"
+                   value="1" <?php if (isset($data['adminlink'])) {
+                checked('1', $data['adminlink']);
+            } ?> /><label for="meta_widget_customizer_adminlink"><?php echo __('Admin link'); ?></label><br>
+            <input id="meta_widget_customizer_xhtmlvalid" name="meta_widget_customizer[xhtmlvalid]" type="checkbox"
+                   value="1" <?php if (isset($data['xhtmlvalid'])) {
+                checked('1', $data['xhtmlvalid']);
+            } ?> /><label
                 for="meta_widget_customizer_xhtmlvalid"><?php echo __('XHTML validator link'); ?></label><br>
-            <input id="meta_widget_customizer_entriesrss" name="meta_widget_customizer_entriesrss" type="checkbox"
-                   value="1" <?php checked('1', $data['entriesrss']); ?> /><label
-                for="meta_widget_customizer_entriesrss"><?php echo __('Entries RSS'); ?></label><br>
-            <input id="meta_widget_customizer_commentsrss" name="meta_widget_customizer_commentsrss" type="checkbox"
-                   value="1" <?php checked('1', $data['commentsrss']); ?> /><label
-                for="meta_widget_customizer_commentsrss"><?php echo __('Comments RSS'); ?></label><br>
-            <input id="meta_widget_customizer_wordpressorg" name="meta_widget_customizer_wordpressorg" type="checkbox"
-                   value="1" <?php checked('1', $data['wordpressorg']); ?> /><label
-                for="meta_widget_customizer_wordpressorg"><?php echo __('WordPress.org'); ?></label><br>
-            <input id="meta_widget_customizer_googlesearch" name="meta_widget_customizer_googlesearch" type="checkbox"
-                   value="1" <?php checked('1', $data['googlesearch']); ?> /><label
-                for="meta_widget_customizer_googlesearch"><?php echo __('Google search'); ?></label>
+            <input id="meta_widget_customizer_entriesrss" name="meta_widget_customizer[entriesrss]" type="checkbox"
+                   value="1" <?php if (isset($data['entriesrss'])) {
+                checked('1', $data['entriesrss']);
+            } ?> /><label for="meta_widget_customizer_entriesrss"><?php echo __('Entries RSS'); ?></label><br>
+            <input id="meta_widget_customizer_commentsrss" name="meta_widget_customizer[commentsrss]"
+                   type="checkbox" value="1" <?php if (isset($data['commentsrss'])) {
+                checked('1', $data['commentsrss']);
+            } ?> /><label for="meta_widget_customizer[commentsrss]"><?php echo __('Comments RSS'); ?></label><br>
+            <input id="meta_widget_customizer_wordpressorg" name="meta_widget_customizer[wordpressorg]"
+                   type="checkbox" value="1" <?php if (isset($data['wordpressorg'])) {
+                checked('1', $data['wordpressorg']);
+            } ?> /><label for="meta_widget_customizer_wordpressorg"><?php echo __('WordPress.org'); ?></label><br>
+            <input id="meta_widget_customizer_googlesearch" name="meta_widget_customizer[googlesearch]"
+                   type="checkbox" value="1" <?php if (isset($data['googlesearch'])) {
+                checked('1', $data['googlesearch']);
+            } ?> /><label for="meta_widget_customizer_googlesearch"><?php echo __('Google search'); ?></label>
         <p>Show also links from this category:</p>
         <?php wp_dropdown_categories(array('hide_empty' => 0, 'id' => 'meta_widget_customizer_select_category', 'name' => 'meta_widget_customizer_select_category', 'selected' => isset($data['select_category']) ? $data['select_category'] : 0, 'show_count' => 1, 'show_option_none' => __('None'), 'taxonomy' => 'link_category')); ?>
         <p>Show also items from this feed:</p>
