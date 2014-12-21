@@ -5,7 +5,7 @@ Plugin Name: Meta Widget Customizer
 Plugin URI: http://benohead.com
 Description: Adds a customizable meta widget for the sidebar
 Author: Henri Benoit
-Version: 0.6.4
+Version: 0.7
 Author URI: http://benohead
 License: GPL2
 
@@ -382,7 +382,7 @@ class Meta_Widget_Customizer
                    value="1" <?php checked('1', $data['googlesearch']); ?> /><label
                 for="meta_widget_customizer_googlesearch"><?php echo __('Google search'); ?></label>
         <p>Show also links from this category:</p>
-        <?php wp_dropdown_categories(array('hide_empty' => 0, 'id' => 'meta_widget_customizer_select_category', 'name' => 'meta_widget_customizer_select_category', 'selected' => $data['select_category'], 'show_count' => 1, 'show_option_none' => __('None'), 'taxonomy' => 'link_category')); ?>
+        <?php wp_dropdown_categories(array('hide_empty' => 0, 'id' => 'meta_widget_customizer_select_category', 'name' => 'meta_widget_customizer_select_category', 'selected' => isset($data['select_category']) ? $data['select_category'] : 0, 'show_count' => 1, 'show_option_none' => __('None'), 'taxonomy' => 'link_category')); ?>
         <p>Show also items from this feed:</p>
         <label for="meta_widget_customizer_feedurl"><?php echo __('Feed URL'); ?></label><input
         id="meta_widget_customizer_feedurl" name="meta_widget_customizer_feedurl" type="text" class="widefat"
@@ -392,26 +392,24 @@ class Meta_Widget_Customizer
         value="<?php echo($data['feeditems']); ?>"/><br>
         </p>
         <?php
-        if (isset($_POST['meta_widget_customizer_title'])) {
-            $data['title'] = esc_attr($_POST['meta_widget_customizer_title']);
-            $data['username'] = esc_attr($_POST['meta_widget_customizer_username']);
-            $data['translate'] = esc_attr($_POST['meta_widget_customizer_translate']);
-            $data['logintabs'] = esc_attr($_POST['meta_widget_customizer_logintabs']);
-            $data['register'] = esc_attr($_POST['meta_widget_customizer_register']);
-            $data['login'] = esc_attr($_POST['meta_widget_customizer_login']);
-            $data['lostpassword'] = esc_attr($_POST['meta_widget_customizer_lostpassword']);
-            $data['editlink'] = esc_attr($_POST['meta_widget_customizer_editlink']);
-            $data['adminlink'] = esc_attr($_POST['meta_widget_customizer_adminlink']);
-            $data['xhtmlvalid'] = esc_attr($_POST['meta_widget_customizer_xhtmlvalid']);
-            $data['entriesrss'] = esc_attr($_POST['meta_widget_customizer_entriesrss']);
-            $data['commentsrss'] = esc_attr($_POST['meta_widget_customizer_commentsrss']);
-            $data['wordpressorg'] = esc_attr($_POST['meta_widget_customizer_wordpressorg']);
-            $data['googlesearch'] = esc_attr($_POST['meta_widget_customizer_googlesearch']);
-            $data['select_category'] = esc_attr($_POST['meta_widget_customizer_select_category']);
-            $data['feedurl'] = esc_attr($_POST['meta_widget_customizer_feedurl']);
-            $data['feeditems'] = esc_attr($_POST['meta_widget_customizer_feeditems']);
+            $data['title'] = isset($_POST['meta_widget_customizer_title']) ? esc_attr($_POST['meta_widget_customizer_title']) :'';
+            $data['username'] = isset($_POST['meta_widget_customizer_username']) ? esc_attr($_POST['meta_widget_customizer_username']) :0;
+            $data['translate'] = isset($_POST['meta_widget_customizer_translate']) ? esc_attr($_POST['meta_widget_customizer_translate']) :0;
+            $data['logintabs'] = isset($_POST['meta_widget_customizer_logintabs']) ? esc_attr($_POST['meta_widget_customizer_logintabs']) :0;
+            $data['register'] = isset($_POST['meta_widget_customizer_register']) ? esc_attr($_POST['meta_widget_customizer_register']) :0;
+            $data['login'] = isset($_POST['meta_widget_customizer_login']) ? esc_attr($_POST['meta_widget_customizer_login']) :0;
+            $data['lostpassword'] = isset($_POST['meta_widget_customizer_lostpassword']) ? esc_attr($_POST['meta_widget_customizer_lostpassword']) :0;
+            $data['editlink'] = isset($_POST['meta_widget_customizer_editlink']) ? esc_attr($_POST['meta_widget_customizer_editlink']) :0;
+            $data['adminlink'] = isset($_POST['meta_widget_customizer_adminlink']) ? esc_attr($_POST['meta_widget_customizer_adminlink']) :0;
+            $data['xhtmlvalid'] = isset($_POST['meta_widget_customizer_xhtmlvalid']) ? esc_attr($_POST['meta_widget_customizer_xhtmlvalid']) :0;
+            $data['entriesrss'] = isset($_POST['meta_widget_customizer_entriesrss']) ? esc_attr($_POST['meta_widget_customizer_entriesrss']) :0;
+            $data['commentsrss'] = isset($_POST['meta_widget_customizer_commentsrss']) ? esc_attr($_POST['meta_widget_customizer_commentsrss']) :0;
+            $data['wordpressorg'] = isset($_POST['meta_widget_customizer_wordpressorg']) ? esc_attr($_POST['meta_widget_customizer_wordpressorg']) :0;
+            $data['googlesearch'] = isset($_POST['meta_widget_customizer_googlesearch']) ? esc_attr($_POST['meta_widget_customizer_googlesearch']) :0;
+            $data['select_category'] = isset($_POST['meta_widget_customizer_select_category']) ? esc_attr($_POST['meta_widget_customizer_select_category']) : 0;
+            $data['feedurl'] = isset($_POST['meta_widget_customizer_feedurl']) ? esc_attr($_POST['meta_widget_customizer_feedurl']) :NULL;
+            $data['feeditems'] = isset($_POST['meta_widget_customizer_feeditems']) ? esc_attr($_POST['meta_widget_customizer_feeditems']) :0;
             update_option('meta_widget_customizer', $data);
-        }
     }
 
     static function activate()
@@ -431,7 +429,7 @@ class Meta_Widget_Customizer
             'commentsrss' => 1,
             'wordpressorg' => 1,
             'googlesearch' => 0,
-            'customlinks' => NULL,
+            'select_category' => NULL,
             'feedurl' => NULL,
             'feeditems' => 0,
         );
@@ -530,7 +528,7 @@ class Meta_Widget_Customizer
 
                 <p>Show also links from this category:</p>
                 <?php
-                wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'meta_widget_customizer[select_category]', 'selected' => $data['select_category'], 'show_count' => 1, 'show_option_none' => __('None'), 'taxonomy' => 'link_category'));
+                wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'meta_widget_customizer[select_category]', 'selected' => isset($data['select_category']) ? $data['select_category'] : 0, 'show_count' => 1, 'show_option_none' => __('None'), 'taxonomy' => 'link_category'));
                 ?>
                 <p>You can add a new category where you'll store the links you want to be able to display in the meta
                     box <a href="<?php echo site_url("/wp-admin/edit-tags.php?taxonomy=link_category"); ?>">here</a></p>
