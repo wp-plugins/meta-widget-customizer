@@ -4,7 +4,7 @@ Donate link: http://benohead.com/wordpress-meta-widget-customizer/
 Tags: meta,widget,customize,custom,links,hide,sidebar
 Requires at least: 2.8
 Tested up to: 4.1
-Stable tag: 0.7.1
+Stable tag: 0.7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,6 +47,9 @@ Send an email to henri.benoit@gmail.com
 2. How the widget looks like with the tabbed login/register/lost password, the entries RSS link and a custom link.
 
 == Changelog ==
+
+= 0.7.2 =
+Fixed: Settings were empty after being saved
 
 = 0.7.1 =
 Fixed error leading to empty options when adding the widget to the sidebar
