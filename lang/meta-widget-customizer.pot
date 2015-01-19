@@ -221,3 +221,6 @@ msgstr ""
 #. Author URI of the plugin/theme
 msgid "http://benohead"
 msgstr ""
+
+msgid "No bullets"
+msgstr ""
