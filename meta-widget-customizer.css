@@ -94,3 +94,7 @@
 #meta_widget_customizer > ul > *:last-child {
     padding: 0;
 }
+
+ul.wpai-nobullets {
+    list-style: none;
+}

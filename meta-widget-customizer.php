@@ -5,7 +5,7 @@ Plugin Name: Meta Widget Customizer
 Plugin URI: http://benohead.com
 Description: Adds a customizable meta widget for the sidebar
 Author: Henri Benoit
-Version: 0.7.3
+Version: 0.7.4
 Author URI: http://benohead
 License: GPL2
 Text Domain: meta-widget-customizer
@@ -54,7 +54,7 @@ class Meta_Widget_Customizer
         echo $args['before_widget'];
         echo $args['before_title'] . (isset($data['title']) ? $data['title'] : "") . $args['after_title'];
         ?>
-        <ul>
+        <ul <?php if (!empty($data['nobullets'])) echo "class='wpai-nobullets'"; ?>>
         <?php if (!empty($data['translate'])) { ?>
             <form method="get" action="http://translate.google.com/translate">
                 <input type="hidden" value="1" name="layout">
@@ -396,7 +396,11 @@ class Meta_Widget_Customizer
             <input id="meta_widget_customizer_googlesearch" name="meta_widget_customizer_googlesearch"
                    type="checkbox" value="1" <?php if (isset($data['googlesearch'])) {
                 checked('1', $data['googlesearch']);
-            } ?> /><label for="meta_widget_customizer_googlesearch"><?php echo __('Google search', 'meta-widget-customizer'); ?></label>
+            } ?> /><label for="meta_widget_customizer_googlesearch"><?php echo __('Google search', 'meta-widget-customizer'); ?></label><br>
+            <input id="meta_widget_customizer_nobullets" name="meta_widget_customizer_nobullets"
+                   type="checkbox" value="1" <?php if (isset($data['nobullets'])) {
+                checked('1', $data['nobullets']);
+            } ?> /><label for="meta_widget_customizer_nobullets"><?php echo __('No bullets', 'meta-widget-customizer'); ?></label>
         <p><?php _e('Show also links from this category:', 'meta-widget-customizer'); ?></p>
         <?php wp_dropdown_categories(array('hide_empty' => 0, 'id' => 'meta_widget_customizer_select_category', 'name' => 'meta_widget_customizer_select_category', 'selected' => isset($data['select_category']) ? $data['select_category'] : 0, 'show_count' => 1, 'show_option_none' => __('None'), 'taxonomy' => 'link_category')); ?>
         <p><?php _e ('Show also items from this feed:', 'meta-widget-customizer'); ?></p>
@@ -424,6 +428,7 @@ class Meta_Widget_Customizer
                 $data['commentsrss'] = isset($_POST['meta_widget_customizer_commentsrss']) ? esc_attr($_POST['meta_widget_customizer_commentsrss']) :0;
                 $data['wordpressorg'] = isset($_POST['meta_widget_customizer_wordpressorg']) ? esc_attr($_POST['meta_widget_customizer_wordpressorg']) :0;
                 $data['googlesearch'] = isset($_POST['meta_widget_customizer_googlesearch']) ? esc_attr($_POST['meta_widget_customizer_googlesearch']) :0;
+                $data['nobullets'] = isset($_POST['meta_widget_customizer_nobullets']) ? esc_attr($_POST['meta_widget_customizer_nobullets']) :0;
                 $data['select_category'] = isset($_POST['meta_widget_customizer_select_category']) ? esc_attr($_POST['meta_widget_customizer_select_category']) : 0;
                 $data['feedurl'] = isset($_POST['meta_widget_customizer_feedurl']) ? esc_attr($_POST['meta_widget_customizer_feedurl']) :NULL;
                 $data['feeditems'] = isset($_POST['meta_widget_customizer_feeditems']) ? esc_attr($_POST['meta_widget_customizer_feeditems']) :0;
@@ -448,6 +453,7 @@ class Meta_Widget_Customizer
             'commentsrss' => 1,
             'wordpressorg' => 1,
             'googlesearch' => 0,
+            'nobullets' => 0,
             'select_category' => NULL,
             'feedurl' => NULL,
             'feeditems' => 0,
@@ -541,7 +547,11 @@ class Meta_Widget_Customizer
                 <input id="meta_widget_customizer_googlesearch" name="meta_widget_customizer[googlesearch]"
                        type="checkbox" value="1" <?php if (isset($data['googlesearch'])) {
                     checked('1', $data['googlesearch']);
-                } ?> /><label for="meta_widget_customizer_googlesearch"><?php echo __('Google search', 'meta-widget-customizer'); ?></label>
+                } ?> /><label for="meta_widget_customizer_googlesearch"><?php echo __('Google search', 'meta-widget-customizer'); ?></label><br>
+                <input id="meta_widget_customizer_nobullets" name="meta_widget_customizer[nobullets]"
+                       type="checkbox" value="1" <?php if (isset($data['nobullets'])) {
+                    checked('1', $data['nobullets']);
+                } ?> /><label for="meta_widget_customizer_nobullets"><?php echo __('No bullets', 'meta-widget-customizer'); ?></label>
 
                 <p><?php _e('Additionally you can define a link category which links will also be shown in the meta box.', 'meta-widget-customizer'); ?></p>
 
