@@ -1,0 +1,230 @@
+# Copyright (C) 2015 Meta Widget Customizer
+# This file is distributed under the same license as the Meta Widget Customizer package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Meta Widget Customizer 0.7.2\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/meta-widget-customizer\n"
+"POT-Creation-Date: 2015-01-14 15:23:02+00:00\n"
+"PO-Revision-Date: 2015-01-19 11:08+0100\n"
+"Last-Translator: Henri Benoit <hb@amazingweb.de>\n"
+"Language-Team: \n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.3\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: meta-widget-customizer.php:65 meta-widget-customizer.php:354
+#: meta-widget-customizer.php:499
+msgid "Translate"
+msgstr "Traduire"
+
+#: meta-widget-customizer.php:146
+msgid "Login"
+msgstr "Connexion"
+
+#: meta-widget-customizer.php:152 meta-widget-customizer.php:217
+#: meta-widget-customizer.php:362 meta-widget-customizer.php:507
+msgid "Register"
+msgstr "Inscription"
+
+#: meta-widget-customizer.php:158 meta-widget-customizer.php:370
+#: meta-widget-customizer.php:515
+msgid "Lost password"
+msgstr "Mot de passe oublié"
+
+#: meta-widget-customizer.php:167 meta-widget-customizer.php:200
+msgid "Username"
+msgstr "Identifiant"
+
+#: meta-widget-customizer.php:173
+msgid "Password"
+msgstr "Mot de passe"
+
+#: meta-widget-customizer.php:180
+msgid "Remember Me"
+msgstr "Se souvenir de moi"
+
+#: meta-widget-customizer.php:187
+msgid "Log In"
+msgstr "Connexion"
+
+#: meta-widget-customizer.php:206
+msgid "E-mail"
+msgstr "E-mail"
+
+#: meta-widget-customizer.php:211
+msgid "A password will be e-mailed to you."
+msgstr "Un mot de passe vous sera envoyé par e-mail."
+
+#: meta-widget-customizer.php:229
+msgid "Username or E-mail:"
+msgstr "Identifiant ou adresse de messagerie :"
+
+#: meta-widget-customizer.php:237
+msgid "Get New Password"
+msgstr "Nouveau mot de passe"
+
+#: meta-widget-customizer.php:258
+msgid "Edit page"
+msgstr "Modifier la page"
+
+#: meta-widget-customizer.php:261
+msgid "Edit post"
+msgstr "Modifier l'article"
+
+#: meta-widget-customizer.php:265
+msgid "Dashboard"
+msgstr "Tableau de bord"
+
+#: meta-widget-customizer.php:269
+msgid "Valid XHTML 1.0 Transitional"
+msgstr "XHTML 1.0 Transitional valide"
+
+#: meta-widget-customizer.php:269
+msgid "Valid XHTML"
+msgstr "XHTML valide"
+
+#: meta-widget-customizer.php:275
+msgid "Syndicate this site using RSS 2.0"
+msgstr "Syndiquer ce site avec RSS 2.0"
+
+#: meta-widget-customizer.php:275
+msgid "Entries <abbr title=\"Really Simple Syndication\">RSS</abbr>"
+msgstr "Flux <abbr title=\"Really Simple Syndication\">RSS</abbr> des articles"
+
+#: meta-widget-customizer.php:281
+msgid "The latest comments to all posts in RSS"
+msgstr "Commentaires les plus récents par RSS"
+
+#: meta-widget-customizer.php:281
+msgid "Comments <abbr title=\"Really Simple Syndication\">RSS</abbr>"
+msgstr "Flux <abbr title=\"Really Simple Syndication\">RSS</abbr> des commentaires"
+
+#: meta-widget-customizer.php:287
+msgid "Powered by WordPress, state-of-the-art semantic personal publishing platform."
+msgstr ""
+"Propulsé par WordPress, plate-forme de publication personnelle sémantique de pointe."
+
+#: meta-widget-customizer.php:287 meta-widget-customizer.php:395
+#: meta-widget-customizer.php:540
+msgid "WordPress.org"
+msgstr "Site de WordPress-FR"
+
+#: meta-widget-customizer.php:301
+msgid "Search"
+msgstr "Recherche"
+
+#: meta-widget-customizer.php:303
+msgid "only this site"
+msgstr "seulement sur ce site"
+
+#: meta-widget-customizer.php:343
+msgid "Title"
+msgstr "Titre"
+
+#: meta-widget-customizer.php:350 meta-widget-customizer.php:495
+msgid "User name"
+msgstr "Identifiant"
+
+#: meta-widget-customizer.php:358 meta-widget-customizer.php:503
+msgid "Login tabs"
+msgstr "Onglets de connexion"
+
+#: meta-widget-customizer.php:366 meta-widget-customizer.php:511
+msgid "Log in/out"
+msgstr "Dé/connexion"
+
+#: meta-widget-customizer.php:374 meta-widget-customizer.php:519
+msgid "Edit link"
+msgstr "Lien \"Modifier\""
+
+#: meta-widget-customizer.php:378 meta-widget-customizer.php:523
+msgid "Admin link"
+msgstr "Lien Admin"
+
+#: meta-widget-customizer.php:383 meta-widget-customizer.php:528
+msgid "XHTML validator link"
+msgstr "Lien du validateur XHTML"
+
+#: meta-widget-customizer.php:387 meta-widget-customizer.php:532
+msgid "Entries RSS"
+msgstr "Articles (RSS)"
+
+#: meta-widget-customizer.php:391 meta-widget-customizer.php:536
+msgid "Comments RSS"
+msgstr "Commentaires (RSS)"
+
+#: meta-widget-customizer.php:399 meta-widget-customizer.php:544
+msgid "Google search"
+msgstr "Recherche sur Google"
+
+#: meta-widget-customizer.php:401 meta-widget-customizer.php:550
+msgid "None"
+msgstr "Aucune"
+
+#: meta-widget-customizer.php:402 meta-widget-customizer.php:554
+msgid "Show also items from this feed:"
+msgstr "Aussi afficher les entrées de ce flux:"
+
+#: meta-widget-customizer.php:403 meta-widget-customizer.php:555
+msgid "Feed URL"
+msgstr "URL du flux"
+
+#: meta-widget-customizer.php:406 meta-widget-customizer.php:558
+msgid "Number of feed items"
+msgstr "Nombre d'entrées"
+
+#: meta-widget-customizer.php:491
+msgid "The following links are always available in the widget administration:"
+msgstr "Les liens suivant sont toujours visible dans l'administration de widgets:"
+
+#: meta-widget-customizer.php:546
+msgid ""
+"Additionally you can define a link category which links will also be shown in the "
+"meta box."
+msgstr "Vous pouvez aussi définir une categorie de liens à afficher dans la boîte méta."
+
+#: meta-widget-customizer.php:548
+msgid "Show also links from this category:"
+msgstr "Aussi afficher les liens  de cette catégorie:"
+
+#: meta-widget-customizer.php:552
+msgid ""
+"You can add a new category where you'll store the links you want to be able to "
+"display in the meta box <a href=\"%s\">here</a>"
+msgstr ""
+"Vous pouvez ajouter <a href=\"%s\">ici</a> une catégorie pour définir les liens que "
+"vous voulez pouvoir afficher dans la boîte méta"
+
+#: meta-widget-customizer.php:563
+msgid "Save Changes"
+msgstr "Enregistrer les modifications"
+
+#: meta-widget-customizer.php:572
+msgid "Settings"
+msgstr "Réglages"
+
+#. Plugin Name of the plugin/theme
+msgid "Meta Widget Customizer"
+msgstr "Meta Widget Customizer"
+
+#. Plugin URI of the plugin/theme
+msgid "http://benohead.com"
+msgstr "http://benohead.com"
+
+#. Description of the plugin/theme
+msgid "Adds a customizable meta widget for the sidebar"
+msgstr "Ajoute un widget configurable à la barre latérale"
+
+#. Author of the plugin/theme
+msgid "Henri Benoit"
+msgstr "Henri Benoit"
+
+#. Author URI of the plugin/theme
+msgid "http://benohead"
+msgstr "http://benohead"
+
+msgid "No bullets"
+msgstr "Pas de puces pour les listes"
